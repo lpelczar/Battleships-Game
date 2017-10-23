@@ -1,6 +1,22 @@
 class Ocean():
     ...
 
+    def create_board(width, height):
+        board = []
+        for c in range(0, height):
+            board.append([' '] * width)
+
+        for k,v in enumerate(board):
+            if k == 0 or k == height-1:
+                for c,x in enumerate(v):
+                    v[c] = 'X'
+            else:
+                for c,x in enumerate(v):
+                    if c == 0 or c == width-1:
+                        v[c] = 'X'
+        print(board)
+        return board
+
 
 
 
