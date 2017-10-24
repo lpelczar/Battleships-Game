@@ -15,11 +15,11 @@ class Player():
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
 
     def put_all_ships(self):
-        ca = Carrier(self.is_human, self.ocean, None, None)
-        ba = Battleship(self.is_human, self.ocean, None, None)
-        cr = Cruiser(self.is_human, self.ocean, None, None)
-        su = Submarine(self.is_human, self.ocean, None, None)
-        de = Destroyer(self.is_human, self.ocean, None, None)
+        Carrier(self.is_human, self.ocean, None, None)
+        Battleship(self.is_human, self.ocean, None, None)
+        Cruiser(self.is_human, self.ocean, None, None)
+        Submarine(self.is_human, self.ocean, None, None)
+        Destroyer(self.is_human, self.ocean, None, None)
 
     def player_turn(self):
         print('Turn: ', self.name)
