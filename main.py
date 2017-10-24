@@ -27,33 +27,11 @@ def main():
 
     while True:
         option = input('''
-<<<<<<< HEAD
 Choose option:
 (1) Start single player
 (2) Start multi player
 (3) Show highscores
 (4) exit''')
-
-        if option == '1':
-            name = input('Type in your name: ')
-            difficulity_level = int(input('''
-            
-Select difficulity:
-(1) Easy
-(2) Medium
-(3) Hard'''))
-
-        elif option == '2':
-            first_player_name = input('Type in first player name: ')
-            second_player_name = input('Type in second player name: ')
-
-            MultiPlayerGame(first_player_name, second_player_name)
-=======
-        Choose option:
-        (1) Start singleplayer
-        (2) Start multiplayer
-        (3) Show highscores
-        (4) Exit\n''')
 
         if option == '1':
             ...
@@ -66,7 +44,6 @@ Select difficulity:
 
             multiplayer_game = MultiPlayerGame(player_name1, player_name2)
             multiplayer_game.start_game()
->>>>>>> 2f2c2a9df438a8e72d8a40f98976485aad1866a4
 
         elif option == '3':
             table = Texttable()
