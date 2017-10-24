@@ -37,11 +37,22 @@ class MultiPlayerGame(Game):
         self.player2 = Player(player_name_2, True, self.ocean_player_2)
 
     def start_game(self):
+        turn = 0
         while True:
             self.player1.player_turn()
             hit_position = self.get_user_input()
             hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
             print(hit_position)
+            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+            turn = 1
+            while turn == 1:
+                self.player2.player_turn()
+                hit_position = self.get_user_input()
+                hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+                turn = 0
 
     @staticmethod
     def check_if_user_input_is_digit(row, line):
@@ -63,4 +74,5 @@ class MultiPlayerGame(Game):
         hit_row = input('Enter number of row you want to hit: ')
         hit_line = input('Enter number of line you want to hit: ')
         hit_position = (hit_row, hit_line)
+
         return hit_position
