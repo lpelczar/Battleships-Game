@@ -58,7 +58,6 @@ class Ship():
                     start_x = random.choice(range(1, 9))
                     start_y = random.choice(range(1, 9))
                     if self.is_another_ship_near(start_y, start_x):
-                        print('a')
                         continue
                     temp_start_x = start_x
                     temp_start_y = start_y
@@ -94,7 +93,7 @@ class Carrier(Ship):
         super().__init__(5, "CA", player_create, ocean, is_horizontal, starting_point)
 
 
-class BattleShip(Ship):
+class Battleship(Ship):
 
     def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
         super().__init__(4, "BA", player_create, ocean, is_horizontal, starting_point)

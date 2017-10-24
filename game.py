@@ -24,8 +24,8 @@ class SingleGame(Game):
         self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
 
     def start_game(self):
-        self.bot.add_ship_to_ocean()
-        self.bot.player_turn()
+        self.bot.put_all_ships()
+        print(self.ocean_bot)
         # turn = 0
         # while True:
         #     self.player1.player_turn()
@@ -68,14 +68,18 @@ class MultiPlayerGame(Game):
                 turn = 0
 
     def put_ships_on_board(self):
-        is_horizontal = self.is_horizontal_input()
-        starting_position = self.get_position_input()
-        self.player1.put_carrier_on_board(is_horizontal, starting_position[0], starting_position[1])
+        ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
+
+        while ships:
+            is_horizontal = self.is_horizontal_input(ships[0])
+            starting_position = self.get_position_input(ships[0])
+            self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
+            ships.pop(0)
 
     @staticmethod
-    def get_position_input():
+    def get_position_input(ship_name):
         while True:
-            position = input('Enter starting position of a ship: (x,y) ')
+            position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
             try:
                 x, y = position.split(',')
                 x = int(x)
@@ -87,13 +91,15 @@ class MultiPlayerGame(Game):
         return x, y
 
     @staticmethod
-    def is_horizontal_input():
+    def is_horizontal_input(ship_name):
         while True:
-            user_input = input('Do you want your ship placed horizontal or vertical? (h,v) ').lower()
+            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h,v) ').lower()
             if user_input == 'h':
                 return True
-            if user_input == 'v':
+            elif user_input == 'v':
                 return False
+            else:
+                print('Wrong input!')
 
     @staticmethod
     def check_if_user_input_is_digit(row, line):

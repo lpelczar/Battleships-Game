@@ -3,27 +3,23 @@ from ship import *
 
 class Player():
 
-    def __init__(self, name, is_human, ocean):
+    def __init__(self, name, is_human, ocean, opponent_ocean):
         self.name = name
         self.ocean = ocean
+        self.opponent_ocean = opponent_ocean
         self.is_human = is_human
         self.name = name
         self.start_time = time()
 
-    def put_carrier_on_board(self, is_horizontal, x, y):
-        Carrier(self.is_human, self.ocean, is_horizontal, (x, y))
+    def put_ship_on_board(self, ship_name, is_horizontal, starting_point):
+        eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
 
-    def put_battleship_on_board(self, is_horizontal, x, y):
-        BattleShip(self.is_human, self.ocean, is_horizontal, (x, y))
-
-    def put_cruiser_on_board(self, is_horizontal, x, y):
-        Cruiser(self.is_human, self.ocean, is_horizontal, (x, y))
-
-    def put_submarine_on_board(self, is_horizontal, x, y):
-        Submarine(self.is_human, self.ocean, is_horizontal, (x, y))
-
-    def put_destroyer_on_board(self, is_horizontal, x, y):
-        Destroyer(self.is_human, self.ocean, is_horizontal, (x, y))
+    def put_all_ships(self):
+        ca = Carrier(self.is_human, self.ocean, None, None)
+        ba = Battleship(self.is_human, self.ocean, None, None)
+        cr = Cruiser(self.is_human, self.ocean, None, None)
+        su = Submarine(self.is_human, self.ocean, None, None)
+        de = Destroyer(self.is_human, self.ocean, None, None)
 
     def player_turn(self):
         print('Turn: ', self.name)

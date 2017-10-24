@@ -26,12 +26,12 @@ def main():
     os.system('clear')
 
     while True:
-        option = input('''
-Choose option:
+        option = input('''Choose option:
 (1) Start single player
 (2) Start multi player
 (3) Show highscores
-(4) exit''')
+(4) exit
+''')
 
         if option == '1':
             os.system('clear')
