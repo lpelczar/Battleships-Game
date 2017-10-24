@@ -55,8 +55,11 @@ class Ship():
                 position_found = False
                 self.is_horizontal = True if orientatnion == 'horizontal' else False
                 while not position_found:
-                    start_x = random.choice(range(1, 8))
-                    start_y = random.choice(range(1, 8))
+                    start_x = random.choice(range(1, 9))
+                    start_y = random.choice(range(1, 9))
+                    if self.is_another_ship_near(start_y, start_x):
+                        print('a')
+                        continue
                     temp_start_x = start_x
                     temp_start_y = start_y
                     try:
@@ -70,8 +73,6 @@ class Ship():
                             position_found = True
                     except IndexError:
                         traceback.print_exc()
-                        continue
-                    if self.is_another_ship_near(start_x, start_y):
                         continue
 
                 for i in range (1, self.space+1):
