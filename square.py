@@ -10,16 +10,12 @@ class Square:
         return self.sign
 
 
-
 class BorderSquare(Square):
-
     def __init__(self):
         super().__init__("~")
 
 
 class OceanSquare(Square):
-
-
     def __init__(self, ShipReference= None):
         if(ShipReference == None):
             super().__init__(" ")
