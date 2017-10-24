@@ -47,4 +47,8 @@ def main():
             exit("Thanks for playing.")
 
 if __name__ == "__main__":
-    main()
+    #main()
+    ocean = Ocean()
+    player = Player(' ', False, ocean)
+    player.add_ship_to_ocean()
+    print(ocean)

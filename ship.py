@@ -1,4 +1,5 @@
 from ocean import Ocean
+from square import *
 import random
 
 
@@ -50,21 +51,16 @@ class Ship():
                             y_position_found = True
                     except:
                         continue
-
-                    print(start_x, start_y)
-                    for i in range (1, self.space+1):
-                        self.ocean.ocean[start_x][start_y] = self.sign
-                        start_y +=1 if orientatnion == 'horizontal' else 0
-                        start_x += 1 if orientatnion == 'vertical' else 0
+                for i in range (1, self.space+1):
+                    self.ocean.ocean[start_x][start_y] = OceanSquare(self)
+                    start_y +=1 if orientatnion == 'horizontal' else 0
+                    start_x += 1 if orientatnion == 'vertical' else 0
                 break
             except:
                 continue
 
 
-
-
-
-    def __repr__(self):
+    def __str__(self):
         return self.sign
 
 
