@@ -11,7 +11,6 @@ class Square:
 
 
 class BorderSquare(Square):
-
     def __init__(self):
         super().__init__("~")
 
