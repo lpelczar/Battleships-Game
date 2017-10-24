@@ -1,5 +1,6 @@
 from texttable import *
 from game import *
+import os
 
 
 def import_highscore():
@@ -21,10 +22,12 @@ def export_highscore(highscore):
 
 
 def main():
-    highscore = import_highscore()
+    # highscore = import_highscore()
+    os.system('clear')
 
     while True:
         option = input('''
+<<<<<<< HEAD
 Choose option:
 (1) Start single player
 (2) Start multi player
@@ -45,6 +48,25 @@ Select difficulity:
             second_player_name = input('Type in second player name: ')
 
             MultiPlayerGame(first_player_name, second_player_name)
+=======
+        Choose option:
+        (1) Start singleplayer
+        (2) Start multiplayer
+        (3) Show highscores
+        (4) Exit\n''')
+
+        if option == '1':
+            ...
+
+        elif option == '2':
+            os.system('clear')
+
+            player_name1 = 'Zosia'  # input('Enter name of 1st player: ')
+            player_name2 = 'Jasio'  # input('Enter name of 2nd player: ')
+
+            multiplayer_game = MultiPlayerGame(player_name1, player_name2)
+            multiplayer_game.start_game()
+>>>>>>> 2f2c2a9df438a8e72d8a40f98976485aad1866a4
 
         elif option == '3':
             table = Texttable()
@@ -52,8 +74,10 @@ Select difficulity:
             table.set_cols_align(["l", "l"])
             table.add_rows(highscore)
             print(table.draw())
+
         elif option == '4':
             exit("Thanks for playing.")
+
 
 if __name__ == "__main__":
     main()
