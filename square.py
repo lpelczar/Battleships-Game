@@ -9,6 +9,9 @@ class Square:
     def __repr__(self):
         return self.sign
 
+    def __str__(self):
+        return self.sign
+
 
 class BorderSquare(Square):
     def __init__(self):

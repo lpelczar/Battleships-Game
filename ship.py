@@ -2,6 +2,7 @@ from ocean import Ocean
 from square import ShipSquare
 from square import *
 import random
+import traceback
 
 
 class Ship():
@@ -51,29 +52,32 @@ class Ship():
                 orientatnion = random.choice(['horizontal', 'vertical'])
                 start_x = 0
                 start_y = 0
-                y_position_found = False
-                while not y_position_found:
-                    start_x = random.choice(range(1, 9))
-                    start_y = random.choice(range(1, 9))
+                position_found = False
+                self.is_horizontal = True if orientatnion == 'horizontal' else False
+                while not position_found:
+                    start_x = random.choice(range(1, 8))
+                    start_y = random.choice(range(1, 8))
                     temp_start_x = start_x
                     temp_start_y = start_y
                     try:
                         for i in range(1, self.space + 1):
                             square_sign = self.ocean.ocean[temp_start_x][temp_start_y].sign
                             if not square_sign == ' ':
-                                y_position_found = False
+                                position_found = False
                                 break
                             temp_start_y += 1 if orientatnion == 'horizontal' else 0
                             temp_start_x += 1 if orientatnion == 'vertical' else 0
-                            y_position_found = True
-                    except:
+                            position_found = True
+                    except IndexError:
+                        traceback.print_exc()
+                        continue
+                    if self.is_another_ship_near(start_x, start_y):
                         continue
 
-                    print(start_x, start_y)
-                    for i in range (1, self.space+1):
-                        self.ocean.ocean[start_x][start_y] = self.sign
-                        start_y +=1 if orientatnion == 'horizontal' else 0
-                        start_x += 1 if orientatnion == 'vertical' else 0
+                for i in range (1, self.space+1):
+                    self.ocean.ocean[start_x][start_y] = ShipSquare(self.sign)
+                    start_y +=1 if orientatnion == 'horizontal' else 0
+                    start_x += 1 if orientatnion == 'vertical' else 0
                 break
             except:
                 continue

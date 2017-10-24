@@ -49,6 +49,7 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
+        self.put_ships_on_board()
         while True:
             self.player1.player_turn()
             hit_position = self.get_user_input()
@@ -65,6 +66,34 @@ class MultiPlayerGame(Game):
                 # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
                 turn = 0
+
+    def put_ships_on_board(self):
+        is_horizontal = self.is_horizontal_input()
+        starting_position = self.get_position_input()
+        self.player1.put_carrier_on_board(is_horizontal, starting_position[0], starting_position[1])
+
+    @staticmethod
+    def get_position_input():
+        while True:
+            position = input('Enter starting position of a ship: (x,y) ')
+            try:
+                x, y = position.split(',')
+                x = int(x)
+                y = int(y)
+                break
+            except:
+                print('Wrong input!')
+                continue
+        return x, y
+
+    @staticmethod
+    def is_horizontal_input():
+        while True:
+            user_input = input('Do you want your ship placed horizontal or vertical? (h,v) ').lower()
+            if user_input == 'h':
+                return True
+            if user_input == 'v':
+                return False
 
     @staticmethod
     def check_if_user_input_is_digit(row, line):
