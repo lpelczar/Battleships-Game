@@ -37,22 +37,42 @@ class MultiPlayerGame(Game):
         self.player2 = Player(player_name_2, True, self.ocean_player_2)
 
     def start_game(self):
+        turn = 0
         while True:
             self.player1.player_turn()
-            hit_row = input('Enter number of row you want to hit: ')
-            hit_line = input('Enter number of line you want to hit: ')
-            hit_position = (hit_row, hit_line)
-            check_if_user_input_is_digit(hit_row, line)
+            hit_position = self.get_user_input()
+            hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+            print(hit_position)
+            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+            turn = 1
+            while turn == 1:
+                self.player2.player_turn()
+                hit_position = self.get_user_input()
+                hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+                turn = 0
 
     @staticmethod
     def check_if_user_input_is_digit(row, line):
-        if row.isdigit():
-            row = int(row)
+        if not row.isdigit() or not len(row) == 1:
+            print('You type wrong sign or number! Try again.')
 
-        elif line.isdigit():
-            line = int(line)
+        elif not line.isdigit() and not len(line) == 1:
+            print('You type wrong sign or number! Try again.')
 
         else:
-            print('You didnt type a number! Try again')
+            row = int(row)
+            line = int(line)
+            print('Fire!')
 
         return (row, line)
+
+    @staticmethod
+    def get_user_input():
+        hit_row = input('Enter number of row you want to hit: ')
+        hit_line = input('Enter number of line you want to hit: ')
+        hit_position = (hit_row, hit_line)
+
+        return hit_position

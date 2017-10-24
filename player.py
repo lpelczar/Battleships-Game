@@ -3,7 +3,8 @@ from ship import *
 
 class Player():
 
-    def __init__(self, name:str, is_human:bool, ocean:Ocean):
+    def __init__(self, name, is_human, ocean):
+        self.name = name
         self.ocean = ocean
         self.is_human = is_human
         self.name = name
@@ -15,3 +16,7 @@ class Player():
         cr = Cruiser(self.is_human, self.ocean, None, None)
         su = Submarine(self.is_human, self.ocean, None, None)
         de = Destroyer(self.is_human, self.ocean, None, None)
+
+    def player_turn(self):
+        print('Turn: ', self.name)
+        print(self.ocean)

@@ -1,4 +1,5 @@
 from ocean import Ocean
+from square import ShipSquare
 from square import *
 import random
 
@@ -20,13 +21,29 @@ class Ship():
         y = starting_point[1]
 
         if x < 1 or y < 1 or x + self.space > 9 or y + self.space > 9:
-            raise ValueError('Wrong coords!')
+            raise ValueError('Your ship is hanging off the border!')
+
+        if self.is_another_ship_near(x, y):
+            raise ValueError('You cant put ship near another ship!')
 
         if self.is_horizontal:
-            self.ocean.ocean[y][x: x + self.space] = [self.sign for i in range(self.space)]
+            self.ocean.ocean[y][x: x + self.space] = [ShipSquare(self.sign) for i in range(self.space)]
         else:
             for i in self.ocean.ocean[y:y + self.space]:
-                i[x] = self.sign
+                i[x] = ShipSquare(self.sign)
+
+    def is_another_ship_near(self, x, y):
+        surrounding = []
+
+        if self.is_horizontal:
+            surrounding += self.ocean.ocean[y + 1][x - 1: x + 1 + self.space]
+            surrounding += self.ocean.ocean[y][x - 1: x + 1 + self.space]
+            surrounding += self.ocean.ocean[y - 1][x - 1: x + 1 + self.space]
+        else:
+            surrounding += [i[x - 1] for i in self.ocean.ocean[y - 1: y + 1 + self.space]]
+            surrounding += [i[x] for i in self.ocean.ocean[y - 1: y + 1 + self.space]]
+            surrounding += [i[x + 1] for i in self.ocean.ocean[y - 1: y + 1 + self.space]]
+        return any(isinstance(i, ShipSquare) for i in surrounding)
 
     def create_ship_by_computer(self):
         while True:
@@ -51,10 +68,12 @@ class Ship():
                             y_position_found = True
                     except:
                         continue
-                for i in range (1, self.space+1):
-                    self.ocean.ocean[start_x][start_y] = OceanSquare(self)
-                    start_y +=1 if orientatnion == 'horizontal' else 0
-                    start_x += 1 if orientatnion == 'vertical' else 0
+
+                    print(start_x, start_y)
+                    for i in range (1, self.space+1):
+                        self.ocean.ocean[start_x][start_y] = self.sign
+                        start_y +=1 if orientatnion == 'horizontal' else 0
+                        start_x += 1 if orientatnion == 'vertical' else 0
                 break
             except:
                 continue
