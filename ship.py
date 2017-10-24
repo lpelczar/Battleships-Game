@@ -48,40 +48,15 @@ class Ship():
 
     def create_ship_by_computer(self):
         while True:
+            orientation = random.choice(['horizontal', 'vertical'])
+            self.is_horizontal = True if orientation == 'horizontal' else False
+            x = random.choice(range(1, 9))
+            y = random.choice(range(1, 9))
             try:
-                orientatnion = random.choice(['horizontal', 'vertical'])
-                start_x = 0
-                start_y = 0
-                position_found = False
-                self.is_horizontal = True if orientatnion == 'horizontal' else False
-                while not position_found:
-                    start_x = random.choice(range(1, 9))
-                    start_y = random.choice(range(1, 9))
-                    if self.is_another_ship_near(start_y, start_x):
-                        print('a')
-                        continue
-                    temp_start_x = start_x
-                    temp_start_y = start_y
-                    try:
-                        for i in range(1, self.space + 1):
-                            square_sign = self.ocean.ocean[temp_start_x][temp_start_y].sign
-                            if not square_sign == ' ':
-                                position_found = False
-                                break
-                            temp_start_y += 1 if orientatnion == 'horizontal' else 0
-                            temp_start_x += 1 if orientatnion == 'vertical' else 0
-                            position_found = True
-                    except IndexError:
-                        traceback.print_exc()
-                        continue
-
-                for i in range (1, self.space+1):
-                    self.ocean.ocean[start_x][start_y] = ShipSquare(self.sign)
-                    start_y +=1 if orientatnion == 'horizontal' else 0
-                    start_x += 1 if orientatnion == 'vertical' else 0
-                break
+                self.create_ship_by_user([y,x])
             except:
                 continue
+            break
 
 
     def __str__(self):
