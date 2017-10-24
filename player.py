@@ -10,12 +10,20 @@ class Player():
         self.is_human = is_human
         self.start_time = time()
 
-    def add_ship_to_ocean(self):
-        ca = Carrier(self.is_human, self.ocean, None, None)
-        ba = BattleShip(self.is_human, self.ocean, None, None)
-        cr = Cruiser(self.is_human, self.ocean, None, None)
-        su = Submarine(self.is_human, self.ocean, None, None)
-        de = Destroyer(self.is_human, self.ocean, None, None)
+    def put_carrier_on_board(self, is_horizontal, x, y):
+        Carrier(self.is_human, self.ocean, is_horizontal, (x, y))
+
+    def put_battleship_on_board(self, is_horizontal, x, y):
+        BattleShip(self.is_human, self.ocean, is_horizontal, (x, y))
+
+    def put_cruiser_on_board(self, is_horizontal, x, y):
+        Cruiser(self.is_human, self.ocean, is_horizontal, (x, y))
+
+    def put_submarine_on_board(self, is_horizontal, x, y):
+        Submarine(self.is_human, self.ocean, is_horizontal, (x, y))
+
+    def put_destroyer_on_board(self, is_horizontal, x, y):
+        Destroyer(self.is_human, self.ocean, is_horizontal, (x, y))
 
     def player_turn(self):
         print('Turn: ', self.name)
