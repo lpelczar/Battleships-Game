@@ -29,7 +29,7 @@ class SingleGame(Game):
 
 class MultiPlayerGame(Game):
 
-    def __init__(self, player_name:str):
+    def __init__(self, player_name_one:str, player_name_two:str):
         ...
 
     def start_game(self):
