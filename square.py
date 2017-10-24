@@ -9,6 +9,8 @@ class Square:
     def __repr__(self):
         return self.sign
 
+    def __str__(self):
+        return self.sign
 
 class BorderSquare(Square):
     def __init__(self):
@@ -20,4 +22,4 @@ class OceanSquare(Square):
         if(ShipReference == None):
             super().__init__(" ")
         else:
-            super().__init__(ShipReference)
+            super().__init__(str(ShipReference))
