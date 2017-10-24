@@ -34,7 +34,13 @@ Choose option:
 (4) exit''')
 
         if option == '1':
-            ...
+            os.system('clear')
+
+            player_name = input('Enter player name: ')
+            difficult_level = input('Enter difficulty of computer player(0:easy, 1:medium, 3:hard):\n')
+
+            singleplayer_game = SingleGame(player_name, difficult_level)
+            singleplayer_game.start_game()
 
         elif option == '2':
             os.system('clear')
