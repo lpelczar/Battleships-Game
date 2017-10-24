@@ -1,4 +1,5 @@
 from square import *
+from texttable import Texttable
 
 class Ocean():
 
@@ -20,4 +21,11 @@ class Ocean():
                         v[c] = BorderSquare()
 
     def __str__(self):
-        return "\n".join([str(i) for i in self.ocean])
+        column_names = [' ','1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        row_names = ['A ', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        t = Texttable()
+        t.add_row(column_names)
+        for row in self.ocean:
+            row.insert(0, row_names.pop(0))
+            t.add_row(row)
+        return t.draw()

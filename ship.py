@@ -1,5 +1,6 @@
 from ocean import Ocean
 from square import ShipSquare
+from square import *
 import random
 
 
@@ -78,10 +79,7 @@ class Ship():
                 continue
 
 
-
-
-
-    def __repr__(self):
+    def __str__(self):
         return self.sign
 
 
