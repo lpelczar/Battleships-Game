@@ -1,5 +1,6 @@
 from texttable import *
 from game import *
+from ship import *
 import os
 
 
@@ -63,4 +64,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+
+
+
+    ocean = Ocean()
+    player = Player('bot', False, ocean)
+    player.add_ship_to_ocean()
+    #player.add_ship_to_ocean()
+    print(ocean)
