@@ -12,71 +12,6 @@ class Game():
     def start_game(self):
         pass
 
-
-class SingleGame(Game):
-
-    def __init__(self, player_name, difficulty_level):
-        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
-        self.ocean_player_1 = Ocean()
-        self.ocean_bot = Ocean()
-
-        # self.player_1 = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
-        self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
-
-    def start_game(self):
-        self.bot.put_all_ships()
-        print(self.ocean_bot)
-        # turn = 0
-        # while True:
-        #     self.player1.player_turn()
-        #     hit_position = self.get_user_input()
-        #     hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
-        #     print(hit_position)
-        #
-        #     turn = 1
-        #     while turn == 1:
-        #         self.bot.player_turn()
-                # AI strzela rozpierdziela!
-
-    @staticmethod
-    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
-        board = Ocean.board
-        for row in board:
-            for square in row:
-                if square.sign == ship_sign.upper():
-                    return False
-        return True
-
-
-
-class MultiPlayerGame(Game):
-
-    def __init__(self, player_name_1, player_name_2):
-        self.ocean_player_1 = Ocean()
-        self.ocean_player_2 = Ocean()
-        self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
-        self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
-
-    def start_game(self):
-        turn = 0
-        self.put_ships_player1()
-        while True:
-            self.player1.player_turn()
-            hit_position = self.get_user_input()
-            hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
-            print(hit_position)
-            # self.player1.shot_outcome(hit_position)
-            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
-
-            turn = 1
-            while turn == 1:
-                self.player2.player_turn()
-                hit_position = self.get_user_input()
-                hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
-                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
-
-                turn = 0
-
     def put_ships_player1(self):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
@@ -140,8 +75,76 @@ class MultiPlayerGame(Game):
 
     @staticmethod
     def get_user_input():
-        hit_row = input('Enter number of row you want to hit: ')
-        hit_line = input('Enter number of line you want to hit: ').upper()
+        hit_row = int(input('Enter number of row you want to hit: '))
+        hit_line = int(input('Enter number of line you want to hit: '))
         hit_position = (hit_row, hit_line)
 
         return hit_position
+
+
+class SingleGame(Game):
+
+    def __init__(self, player_name, difficulty_level):
+        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
+        self.ocean_player_1 = Ocean()
+        self.ocean_bot = Ocean()
+
+        self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
+        self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
+
+    def start_game(self):
+        self.bot.put_all_ships()
+        print(self.ocean_bot)
+        turn = 0
+        while True:
+            self.player.player_turn()
+            hit_position = self.get_user_input()
+            print(hit_position)
+            self.player.shot_outcome(self.ocean_bot, hit_position)
+
+            turn = 1
+
+            self.bot.player_turn()
+
+                # AI strzela rozpierdziela!
+
+    @staticmethod
+    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if square.sign == ship_sign.upper():
+                    return False
+        return True
+
+
+
+class MultiPlayerGame(Game):
+
+    def __init__(self, player_name_1, player_name_2):
+        self.ocean_player_1 = Ocean()
+        self.ocean_player_2 = Ocean()
+        self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
+        self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
+
+    def start_game(self):
+        turn = 0
+        self.put_ships_player1()
+        while True:
+            self.player1.player_turn()
+            hit_position = self.get_user_input()
+            hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+            print(hit_position)
+            # self.player1.shot_outcome(hit_position)
+            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+            turn = 1
+            while turn == 1:
+                self.player2.player_turn()
+                hit_position = self.get_user_input()
+                hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+                turn = 0
+
+

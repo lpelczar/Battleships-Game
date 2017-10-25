@@ -29,11 +29,11 @@ class Player():
     def shot_outcome(self, ocean, positions):
         shot_position_x = positions[0]
         shot_position_y = positions[1]
-        if not isinstance(ocean[shot_position_x, shot_position_y], ShipSquare):
+        if not isinstance(ocean.board[shot_position_x][shot_position_y], ShipSquare):
             print('Shot missed')
             return False
         else:
-            ocean[shot_position_x, shot_position_y].change_sign('X')
+            ocean.board[shot_position_x][shot_position_y].change_sign('X')
             print('Hit!')
             return True
 
@@ -47,10 +47,12 @@ class Player():
                             print('Shot at: ' + str(player_ocean.index(square)) + str(line.index(square)) + 'outcome: ')
                             square.change_sign('X')
                             print('Hit!')
+                            print(player_ocean)
             else:
                 shot_position_x = random.randint(1, 8)
                 shot_position_y = random.randint(1, 8)
                 positions = [shot_position_x, shot_position_y]
                 print('Shot at: ' + str(shot_position_x) + str(shot_position_y) + 'outcome: ')
+                print(player_ocean)
                 if not self.shot_outcome(player_ocean, positions):
                     break
