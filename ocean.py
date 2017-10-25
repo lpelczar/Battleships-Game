@@ -1,6 +1,5 @@
-from square import *
 from texttable import Texttable
-
+from square import *
 
 class Ocean():
 
@@ -9,6 +8,7 @@ class Ocean():
         self.create_board()
 
     def create_board(self, height=10, width=10):
+        if self.board: self.board = []
         for c in range(0, height):
             self.board.append([OceanSquare() for i in range(width)])
 
@@ -20,6 +20,14 @@ class Ocean():
                 for c, x in enumerate(v):
                     if c == 0 or c == width-1:
                         v[c] = BorderSquare()
+
+    def put_all_ships_for_bot(self):
+        import ship
+        ship.Carrier(False, self, None, None)
+        ship.Battleship(False, self, None, None)
+        ship.Cruiser(False, self, None, None)
+        ship.Submarine(False, self, None, None)
+        ship.Destroyer(False, self, None, None)
 
     def __str__(self):
         column_names = [' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']

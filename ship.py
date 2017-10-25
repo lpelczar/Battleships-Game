@@ -2,6 +2,7 @@ import random
 
 from ocean import Ocean
 from square import *
+from time import time
 
 
 class Ship():
@@ -20,10 +21,12 @@ class Ship():
         x = starting_point[0]
         y = starting_point[1]
 
-        print(x, y)
-
-        if x < 1 or y < 1 or x + self.space > 9 or y + self.space > 9:
-            raise ValueError('Your ship is hanging off the border!')
+        if self.is_horizontal:
+            if x <= 0 or x + self.space >= 9 or y <= 0 or y >= 9:
+                raise ValueError('Your ship is hanging off the border!')
+        else:
+            if y <= 0 or y + self.space >= 9 or x <= 0 or x >= 9:
+                raise ValueError('Your ship is hanging off the border!')
 
         if self.is_another_ship_near(x, y):
             raise ValueError('You cant put ship near another ship!')
@@ -48,6 +51,7 @@ class Ship():
         return any(isinstance(i, ShipSquare) for i in surrounding)
 
     def create_ship_by_computer(self):
+        start = time()
         while True:
             orientation = random.choice(['horizontal', 'vertical'])
             self.is_horizontal = True if orientation == 'horizontal' else False
@@ -56,6 +60,11 @@ class Ship():
             try:
                 self.create_ship_by_user([y, x])
             except:
+                end = time()
+                diff = int((end-start)*1000.0)
+                if diff > 500:
+                    self.ocean.create_board()
+                    self.ocean.put_all_ships_for_bot()
                 continue
             break
 

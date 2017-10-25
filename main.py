@@ -1,25 +1,8 @@
 from texttable import *
 from game import *
-from ship import *
 import os
+from highscore import HighScoreManager
 
-
-def import_highscore():
-    new_line_position = -1
-    highscore = []
-
-    with open('highscore.csv', 'r') as file:
-        for line in file:
-            highscore.append(line[:new_line_position].split(','))
-    return highscore
-
-
-def export_highscore(highscore):
-
-    with open('highscore.csv', 'w') as file:
-        writer = csv.writer(file)
-        for line in highscore:
-            writer.writerow(line)
 
 
 def main():
@@ -53,11 +36,7 @@ def main():
             multiplayer_game.start_game()
 
         elif option == '3':
-            table = Texttable()
-            table.set_deco(Texttable.HEADER)
-            table.set_cols_align(["l", "l"])
-            table.add_rows(highscore)
-            print(table.draw())
+            HighScoreManager.print_highscore()
 
         elif option == '4':
             exit("Thanks for playing.")
@@ -66,10 +45,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
     # ocean = Ocean()
-    # player = Player('bot', False, ocean,)
-    # player.add_ship_to_ocean()
-    # #player.add_ship_to_ocean()
+    # ocean.put_all_ships_for_bot()
+    # player = Player('bot', False, ocean, None)
     # print(ocean)
