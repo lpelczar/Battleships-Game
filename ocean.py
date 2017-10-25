@@ -28,4 +28,5 @@ class Ocean():
         for row in self.board:
             row.insert(0, row_names.pop(0))
             t.add_row(row)
+            row.pop(0)
         return t.draw()

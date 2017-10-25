@@ -49,7 +49,7 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
-        self.put_ships_on_board()
+        self.put_ships_player1()
         while True:
             self.player1.player_turn()
             hit_position = self.get_user_input()
@@ -67,7 +67,7 @@ class MultiPlayerGame(Game):
 
                 turn = 0
 
-    def put_ships_on_board(self):
+    def put_ships_player1(self):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
@@ -81,10 +81,16 @@ class MultiPlayerGame(Game):
     def get_position_input(ship_name):
         while True:
             position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
             try:
                 x, y = position.split(',')
                 x = int(x)
-                y = int(y)
+                if y.isalpha():
+                    y = y.upper()
+                    if y in board_letter:
+                        y = board_letter.get(y)
+                else:
+                    y = int(y)
                 break
             except:
                 print('Wrong input!')
@@ -94,7 +100,7 @@ class MultiPlayerGame(Game):
     @staticmethod
     def is_horizontal_input(ship_name):
         while True:
-            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h,v) ').lower()
+            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
             if user_input == 'h':
                 return True
             elif user_input == 'v':
@@ -103,7 +109,7 @@ class MultiPlayerGame(Game):
                 print('Wrong input!')
 
     @staticmethod
-    def check_if_user_input_is_digit(row, line):
+    def check_if_user_input_is_correct(row, line):
 
         board_letter = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9}
 
