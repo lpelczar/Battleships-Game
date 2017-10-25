@@ -64,7 +64,6 @@ class Ship():
             except:
                 end = time()
                 diff = int((end-start)*1000.0)
-                print(diff)
                 if diff > 500:
                     self.ocean.create_board()
                     self.ocean.put_all_ships_for_bot()
