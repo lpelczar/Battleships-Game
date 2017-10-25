@@ -1,4 +1,3 @@
-from time import time
 from ship import *
 import random
 
@@ -15,13 +14,6 @@ class Player():
 
     def put_ship_on_board(self, ship_name, is_horizontal, starting_point):
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
-
-    def put_all_ships(self):
-        Carrier(self.is_human, self.ocean, None, None)
-        Battleship(self.is_human, self.ocean, None, None)
-        Cruiser(self.is_human, self.ocean, None, None)
-        Submarine(self.is_human, self.ocean, None, None)
-        Destroyer(self.is_human, self.ocean, None, None)
 
     def player_turn(self):
         print('Turn: ', self.name)
