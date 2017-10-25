@@ -22,8 +22,12 @@ class Ship():
 
         print(x, y)
 
-        if x < 1 or y < 1 or x + self.space > 9 or y + self.space > 9:
-            raise ValueError('Your ship is hanging off the border!')
+        if self.is_horizontal:
+            if x <= 0 or x + self.space >= 9 or y <= 0 or y >= 9:
+                raise ValueError('Your ship is hanging off the border!')
+        else:
+            if y <= 0 or y + self.space >= 9 or x <= 0 or x >= 9:
+                raise ValueError('Your ship is hanging off the border!')
 
         if self.is_another_ship_near(x, y):
             raise ValueError('You cant put ship near another ship!')

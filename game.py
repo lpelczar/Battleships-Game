@@ -81,10 +81,10 @@ class MultiPlayerGame(Game):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
+            print(self.ocean_player_1)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
             self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
-            print(self.ocean_player_1)
             ships.pop(0)
 
     @staticmethod
@@ -94,13 +94,13 @@ class MultiPlayerGame(Game):
             board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
             try:
                 x, y = position.split(',')
-                x = int(x)
+                x = int(x) - 1
                 if y.isalpha():
                     y = y.upper()
                     if y in board_letter:
                         y = board_letter.get(y)
                 else:
-                    y = int(y)
+                    y = int(y) - 1
                 break
             except:
                 print('Wrong input!')
