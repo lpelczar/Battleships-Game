@@ -164,7 +164,7 @@ class Game():
         for row in board:
             for square in row:
                 if isinstance(square, ShipSquare):
-                    square.change_sign('o')
+                    square.change_sign(square.final_sign)
 
 
 
