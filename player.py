@@ -68,12 +68,15 @@ class Player():
                 if not self.shot_outcome(positions):
                     break
 
-                for sign in player_ships_sign:
+            for sign in player_ships_sign:
                     if player.check_if_ship_is_destroyed(sign, player_ocean):
                         print("Your ship: " + sign + "has been sunk!")
                         player_ships_sign.remove(sign)
 
-                if not player_ships_sign:
+            if not player_ships_sign:
                     "You lose!"
                     return True
+
+    def __str__(self):
+        return self.name
 
