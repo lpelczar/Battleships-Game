@@ -58,7 +58,7 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
-        # self.put_ships_on_board()
+        self.put_ships_player1()
 
         while True:
             self.player1.player_turn()
@@ -95,7 +95,6 @@ class MultiPlayerGame(Game):
             print(self.ocean_player_1)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
-            starting_position = self.check_if_user_input_is_correct(starting_position[0], starting_position[1])
 
             self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
             ships.pop(0)
