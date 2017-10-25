@@ -5,8 +5,8 @@ from player import Player
 
 class Game():
 
-    # def __init__(self):
-    #     pass
+    def __init__(self):
+         pass
 
     @abc.abstractmethod
     def start_game(self):
@@ -18,6 +18,8 @@ class Game():
         while ships:
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
+            starting_position = self.check_if_user_input_is_correct(starting_position[0], starting_position[1])
+
             self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
             print(self.ocean_player_1)
             ships.pop(0)
@@ -56,30 +58,46 @@ class Game():
     @staticmethod
     def check_if_user_input_is_correct(row, line):
 
-        board_letter = {'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9}
-
         if not row.isdigit() or not len(row) == 1:
             print('You type wrong sign or number! Try again.')
+            return False
 
-        elif not line.isalpha() and not len(line) == 1:
+        if not line.isalpha() or not len(line) == 1:
             print('You type wrong sign or number! Try again.')
+            return False
 
         else:
-            row = int(row)
+            return True
+
+    @staticmethod
+    def convert_user_input_to_coordinates(row, line):
+        try:
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 7}
+            row = int(row) - 1
 
             if line in board_letter:
                 line = board_letter.get(line)
-                print(line)
+        except:
+            print('Wring sings!')
 
         return (row, line)
 
     @staticmethod
     def get_user_input():
-        hit_row = int(input('Enter number of row you want to hit: '))
-        hit_line = int(input('Enter number of line you want to hit: '))
+        hit_row = input('Enter number of row you want to hit: ')
+        hit_line = input('Enter number of line you want to hit: ').upper()
         hit_position = (hit_row, hit_line)
 
         return hit_position
+
+    @staticmethod
+    def check_if_ship_is_destroyed(ship_sign: str, Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if square.sign == ship_sign.upper():
+                    return False
+        return True
 
 
 class SingleGame(Game):
@@ -108,16 +126,6 @@ class SingleGame(Game):
 
                 # AI strzela rozpierdziela!
 
-    @staticmethod
-    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
-        board = Ocean.board
-        for row in board:
-            for square in row:
-                if square.sign == ship_sign.upper():
-                    return False
-        return True
-
-
 
 class MultiPlayerGame(Game):
 
@@ -129,22 +137,32 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
-        self.put_ships_player1()
+        # self.put_ships_on_board()
+
         while True:
             self.player1.player_turn()
-            hit_position = self.get_user_input()
-            hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+
+            incorrect_inputs = False
+            while incorrect_inputs is False:  # kontola inputow
+                hit_position = self.get_user_input()
+                incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+                hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+
             print(hit_position)
-            # self.player1.shot_outcome(hit_position)
+            self.player1.shot_outcome(hit_position)
             # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
             turn = 1
             while turn == 1:
                 self.player2.player_turn()
-                hit_position = self.get_user_input()
-                hit_position = self.check_if_user_input_is_digit(hit_position[0], hit_position[1])
+
+                incorrect_inputs = False
+                while incorrect_inputs is False:  # kontola inputow
+                    hit_position = self.get_user_input()
+                    incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+                    hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+
+                self.player2.shot_outcome(hit_position)
                 # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
                 turn = 0
-
-
