@@ -38,7 +38,7 @@ def main():
             os.system('clear')
 
             player_name = input('Enter player name: ')
-            difficulty_level = input('Enter difficulty of computer player(0:easy, 1:medium, 2:hard):\n')
+            difficulty_level = int(input('Enter difficulty of computer player(0:easy, 1:medium, 2:hard):\n'))
 
             singleplayer_game = SingleGame(player_name, difficulty_level)
             singleplayer_game.start_game()

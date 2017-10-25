@@ -57,76 +57,6 @@ class Game():
                     return False
         return True
 
-
-class SingleGame(Game):
-
-    def __init__(self, player_name, difficulty_level):
-        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
-        self.ocean_player_1 = Ocean()
-        self.ocean_bot = Ocean()
-        self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
-        self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
-
-    def start_game(self):
-        self.ocean_bot.put_all_ships_for_bot()
-        print(self.ocean_bot)
-        turn = 0
-        while True:
-            self.player.player_turn()
-            hit_position = self.get_user_input()
-            incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
-            hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
-            print(hit_position)
-            self.player.shot_outcome(hit_position)
-
-            turn = 1
-
-            self.bot.player_turn()
-
-                # AI strzela rozpierdziela!
-
-
-class MultiPlayerGame(Game):
-
-    def __init__(self, player_name_1, player_name_2):
-        self.ocean_player_1 = Ocean()
-        self.ocean_player_2 = Ocean()
-        self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
-        self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
-
-    def start_game(self):
-        turn = 0
-        self.put_ships_on_board(self.player1)
-        self.put_ships_on_board(self.player2)
-
-        while True:
-            self.player1.player_turn()
-
-            incorrect_inputs = False
-            while incorrect_inputs is False:  # kontola inputow
-                hit_position = self.get_user_input()
-                incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
-                hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
-
-            print(hit_position)
-            self.player1.shot_outcome(hit_position)
-            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
-
-            turn = 1
-            while turn == 1:
-                self.player2.player_turn()
-
-                incorrect_inputs = False
-                while incorrect_inputs is False:  # kontola inputow
-                    hit_position = self.get_user_input()
-                    incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
-                    hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
-
-                self.player2.shot_outcome(hit_position)
-                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
-
-                turn = 0
-
     def put_ships_on_board(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
@@ -171,3 +101,84 @@ class MultiPlayerGame(Game):
                 return False
             else:
                 print('Wrong input!')
+
+
+class SingleGame(Game):
+
+    def __init__(self, player_name, difficulty_level):
+        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
+        self.ocean_player_1 = Ocean()
+        self.ocean_bot = Ocean()
+        self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
+        self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
+        self.ship_signs = ["BA", "CA", "CR", "SU", "DE"]
+
+    def start_game(self):
+        self.ocean_bot.put_all_ships_for_bot()
+        self.put_ships_on_board(self.player)
+        print(self.ocean_bot)
+        turn = 0
+        while True:
+            self.player.player_turn()
+            hit_position = self.get_user_input()
+            incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+            hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+            print(hit_position)
+            shot_outcome = self.player.shot_outcome(hit_position)
+            for sign in self.ship_signs:
+                if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
+                    print("Enemy ship: " + sign + "has been sunk!")
+                    self.ship_signs.remove(sign)
+            if not self.ship_signs:
+                "Congratulations, you win!"
+                break
+            if shot_outcome:
+                continue
+            turn = 1
+            bot_turn = self.bot.ai_guess(self.difficulty_level, self.ocean_player_1, self)
+            if bot_turn:
+                break
+
+
+class MultiPlayerGame(Game):
+
+    def __init__(self, player_name_1, player_name_2):
+        self.ocean_player_1 = Ocean()
+        self.ocean_player_2 = Ocean()
+        self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
+        self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
+
+    def start_game(self):
+        turn = 0
+        self.put_ships_on_board(self.player1)
+        self.put_ships_on_board(self.player2)
+
+        while True:
+            self.player1.player_turn()
+
+            incorrect_inputs = False
+            while incorrect_inputs is False:  # kontola inputow
+                hit_position = self.get_user_input()
+                incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+                hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+
+            print(hit_position)
+            self.player1.shot_outcome(hit_position)
+            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+            turn = 1
+            while turn == 1:
+                self.player2.player_turn()
+
+                incorrect_inputs = False
+                while incorrect_inputs is False:  # kontola inputow
+                    hit_position = self.get_user_input()
+                    incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+                    hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+
+                self.player2.shot_outcome(hit_position)
+                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
+
+                turn = 0
+
+
