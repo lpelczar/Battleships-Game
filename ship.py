@@ -1,7 +1,7 @@
+import random
+
 from ocean import Ocean
 from square import *
-import random
-import traceback
 
 
 class Ship():

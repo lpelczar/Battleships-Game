@@ -11,7 +11,7 @@ class Ocean():
         for c in range(0, height):
             self.board.append([OceanSquare() for i in range(width)])
 
-        for k, v in enumerate(self.board):
+        for k,v in enumerate(self.board):
             if k == 0 or k == height-1:
                 for c, x in enumerate(v):
                     v[c] = BorderSquare()

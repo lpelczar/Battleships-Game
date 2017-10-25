@@ -38,6 +38,16 @@ class SingleGame(Game):
         #         self.bot.player_turn()
                 # AI strzela rozpierdziela!
 
+    @staticmethod
+    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if square.sign == ship_sign.upper():
+                    return False
+        return True
+
+
 
 class MultiPlayerGame(Game):
 
