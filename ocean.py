@@ -1,6 +1,7 @@
 from square import *
 from texttable import Texttable
 
+
 class Ocean():
 
     def __init__(self):

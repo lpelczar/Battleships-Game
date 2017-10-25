@@ -63,7 +63,6 @@ class Ship():
                 continue
             break
 
-
     def __str__(self):
         return self.sign
 
