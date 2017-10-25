@@ -1,6 +1,7 @@
 from square import *
 from texttable import Texttable
 
+
 class Ocean():
 
     def __init__(self):
@@ -28,4 +29,5 @@ class Ocean():
         for row in self.board:
             row.insert(0, row_names.pop(0))
             t.add_row(row)
+            row.pop(0)
         return t.draw()
