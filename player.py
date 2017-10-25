@@ -32,6 +32,7 @@ class Player():
     def shot_outcome(self, positions):
         row = positions[0]
         line = positions[1]
+        print(row, line)
 
         if isinstance(self.opponent_ocean.board[line][row], ShipSquare):
             print('Shot missed')

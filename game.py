@@ -38,6 +38,15 @@ class SingleGame(Game):
         #         self.bot.player_turn()
                 # AI strzela rozpierdziela!
 
+    @staticmethod
+    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if square.sign == ship_sign.upper():
+                    return False
+        return True
+
 
 class MultiPlayerGame(Game):
 
@@ -50,6 +59,7 @@ class MultiPlayerGame(Game):
     def start_game(self):
         turn = 0
         # self.put_ships_on_board()
+
         while True:
             self.player1.player_turn()
 
@@ -78,7 +88,7 @@ class MultiPlayerGame(Game):
 
                 turn = 0
 
-    def put_ships_on_board(self):
+    def put_ships_player1(self):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
@@ -92,17 +102,28 @@ class MultiPlayerGame(Game):
 
     @staticmethod
     def get_position_input(ship_name):
-        position = input('Enter starting position of a ' + ship_name + ': (row,line) ')
-        row, line = position.split(',')
-        line = line.upper()
-        asd = (row, line)
-
-        return asd
+        while True:
+            position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
+            try:
+                x, y = position.split(',')
+                x = int(x)
+                if y.isalpha():
+                    y = y.upper()
+                    if y in board_letter:
+                        y = board_letter.get(y)
+                else:
+                    y = int(y)
+                break
+            except:
+                print('Wrong input!')
+                continue
+        return x, y
 
     @staticmethod
     def is_horizontal_input(ship_name):
         while True:
-            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h,v) ').lower()
+            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
             if user_input == 'h':
                 return True
             elif user_input == 'v':
