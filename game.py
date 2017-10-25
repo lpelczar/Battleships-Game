@@ -1,4 +1,5 @@
 import abc
+import os
 from ocean import Ocean
 from player import Player
 
@@ -16,6 +17,8 @@ class Game():
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
+            os.system('clear')
+            print(player)
             print(player.ocean)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
@@ -108,7 +111,6 @@ class SingleGame(Game):
         self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
-
         self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
         self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
 

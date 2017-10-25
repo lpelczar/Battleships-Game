@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
 
 
-    ocean = Ocean()
-    ocean.put_all_ships_for_bot()
-    player = Player('bot', False, ocean, None)
-    print(ocean)
+    # ocean = Ocean()
+    # ocean.put_all_ships_for_bot()
+    # player = Player('bot', False, ocean, None)
+    # print(ocean)

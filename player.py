@@ -56,3 +56,6 @@ class Player():
                 print('Shot at: ' + str(row) + str(line) + 'outcome: ')
                 if not self.shot_outcome(positions):
                     break
+
+    def __str__(self):
+        return self.name
