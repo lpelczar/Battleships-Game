@@ -13,15 +13,15 @@ class Ocean():
 
         for k,v in enumerate(self.board):
             if k == 0 or k == height-1:
-                for c,x in enumerate(v):
+                for c, x in enumerate(v):
                     v[c] = BorderSquare()
             else:
-                for c,x in enumerate(v):
+                for c, x in enumerate(v):
                     if c == 0 or c == width-1:
                         v[c] = BorderSquare()
 
     def __str__(self):
-        column_names = [' ','1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        column_names = [' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
         row_names = ['A ', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
         t = Texttable()
         t.add_row(column_names)

@@ -52,7 +52,7 @@ class Ship():
             x = random.choice(range(1, 9))
             y = random.choice(range(1, 9))
             try:
-                self.create_ship_by_user([y,x])
+                self.create_ship_by_user([y, x])
             except:
                 continue
             break
@@ -68,7 +68,7 @@ class Carrier(Ship):
         super().__init__(5, "CA", player_create, ocean, is_horizontal, starting_point)
 
 
-class BattleShip(Ship):
+class Battleship(Ship):
 
     def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
         super().__init__(4, "BA", player_create, ocean, is_horizontal, starting_point)
