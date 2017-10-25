@@ -1,5 +1,7 @@
 from ship import *
 import random
+from texttable import Texttable
+import os
 
 
 class Player():
@@ -15,11 +17,16 @@ class Player():
     def put_ship_on_board(self, ship_name, is_horizontal, starting_point):
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
 
-    def player_turn(self):
-        print('Turn: ', self.name)
-        print(self.ocean)
-        print('Opponent ocean:')
-        print(self.opponent_ocean)
+    def player_turn(self, player_name):
+        os.system('clear')
+        ocean_lines = self.ocean.__str__().split('\n')
+        ocean2_lines = self.opponent_ocean.__str__().split('\n')
+        width = 45
+        table_names = 'Your Ocean: ' + ' ' * width + 'Opponent Ocean:'
+
+        print('Turn: ', player_name, '\n', table_names)
+        for i in range(0, len(ocean_lines)):
+            print(ocean_lines[i] + '     ' + ocean2_lines[i])
 
     def shot_outcome(self, positions):
         row = positions[0]

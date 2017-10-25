@@ -2,6 +2,7 @@ class Square:
 
     def __init__(self, sign):
         self.sign = sign
+        self.final_sign = sign
 
     def change_sign(self, sign):
         self.sign = sign
@@ -28,6 +29,6 @@ class OceanSquare(Square):
 
 
 class ShipSquare(Square):
-
     def __init__(self, sign):
         super().__init__(sign)
+

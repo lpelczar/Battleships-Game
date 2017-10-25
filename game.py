@@ -33,7 +33,7 @@ class Game():
     @staticmethod
     def get_position_input(ship_name):
         while True:
-            position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
+            position = input('Enter starting position of a ' + ship_name + ': (row,line) ')
             board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
             try:
                 x, y = position.split(',')
@@ -78,7 +78,7 @@ class Game():
     @staticmethod
     def convert_user_input_to_coordinates(row, line):
         try:
-            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 7}
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
             row = int(row) - 1
 
             if line in board_letter:
@@ -90,9 +90,10 @@ class Game():
 
     @staticmethod
     def get_user_input():
-        hit_row = input('Enter number of row you want to hit: ')
-        hit_line = input('Enter number of line you want to hit: ').upper()
-        hit_position = (hit_row, hit_line)
+        hit_position = input('Enter coordinates you want to shoot (row,line): ')
+        row, line = hit_position.split(',')
+        line = line.upper()
+        hit_position = (row, line)
 
         return hit_position
 
@@ -164,7 +165,7 @@ class Game():
         for row in board:
             for square in row:
                 if isinstance(square, ShipSquare):
-                    square.change_sign('o')
+                    square.change_sign(square.final_sign)
 
 
 
@@ -184,7 +185,7 @@ class SingleGame(Game):
         print(self.ocean_bot)
         turn = 0
         while True:
-            self.player.player_turn()
+            self.player.player_turn(player_name)
             hit_position = self.get_user_input()
             incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
@@ -219,7 +220,7 @@ class MultiPlayerGame(Game):
         self.put_ships_on_board(self.player2)
 
         while True:
-            self.player1.player_turn()
+            self.player1.player_turn(self.player1.name)
 
             incorrect_inputs = False
             while incorrect_inputs is False:  # kontola inputow
@@ -227,13 +228,14 @@ class MultiPlayerGame(Game):
                 incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
                 hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
-            print(hit_position)
-            self.player1.shot_outcome(hit_position)
+            is_hit = self.player1.shot_outcome(hit_position)
+            if is_hit is True:
+                continue
             # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
             turn = 1
             while turn == 1:
-                self.player2.player_turn()
+                self.player2.player_turn(self.player2.name)
 
                 incorrect_inputs = False
                 while incorrect_inputs is False:  # kontola inputow
@@ -241,7 +243,9 @@ class MultiPlayerGame(Game):
                     incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
                     hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
-                self.player2.shot_outcome(hit_position)
+                is_hit = self.player2.shot_outcome(hit_position)
+                if is_hit is True:
+                    turn = 1
+                else:
+                    turn = 0
                 # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
-
-                turn = 0
