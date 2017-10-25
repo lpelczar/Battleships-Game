@@ -185,7 +185,7 @@ class SingleGame(Game):
         print(self.ocean_bot)
         turn = 0
         while True:
-            self.player.player_turn(player_name)
+            self.player.player_turn(self.player.name)
             hit_position = self.get_user_input()
             incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
