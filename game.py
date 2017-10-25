@@ -6,12 +6,56 @@ from player import Player
 
 class Game():
 
-    # def __init__(self):
-    #     pass
+    def __init__(self):
+        pass
 
     @abc.abstractmethod
     def start_game(self):
         pass
+
+    @staticmethod
+    def check_if_user_input_is_correct(row, line):
+
+        if not row.isdigit() or not len(row) == 1:
+            print('You type wrong sign or number! Try again.')
+            return False
+
+        if not line.isalpha() or not len(line) == 1:
+            print('You type wrong sign or number! Try again.')
+            return False
+
+        else:
+            return True
+
+    @staticmethod
+    def convert_user_input_to_coordinates(row, line):
+        try:
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 7}
+            row = int(row) - 1
+
+            if line in board_letter:
+                line = board_letter.get(line)
+        except:
+            print('Wring sings!')
+
+        return (row, line)
+
+    @staticmethod
+    def get_user_input():
+        hit_row = input('Enter number of row you want to hit: ')
+        hit_line = input('Enter number of line you want to hit: ').upper()
+        hit_position = (hit_row, hit_line)
+
+        return hit_position
+
+    @staticmethod
+    def check_if_ship_is_destroyed(ship_sign: str, Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if square.sign == ship_sign.upper():
+                    return False
+        return True
 
 
 class SingleGame(Game):
@@ -21,32 +65,26 @@ class SingleGame(Game):
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
 
-        # self.player_1 = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
+        self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
         self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
 
     def start_game(self):
-        self.bot.put_all_ships()
+        self.ocean_bot.put_all_ships_for_bot()
         print(self.ocean_bot)
-        # turn = 0
-        # while True:
-        #     self.player1.player_turn()
-        #     hit_position = self.get_user_input()
-        #     hit_position = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
-        #     print(hit_position)
-        #
-        #     turn = 1
-        #     while turn == 1:
-        #         self.bot.player_turn()
-                # AI strzela rozpierdziela!
+        turn = 0
+        while True:
+            self.player.player_turn()
+            hit_position = self.get_user_input()
+            incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+            hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+            print(hit_position)
+            self.player.shot_outcome(hit_position)
 
-    @staticmethod
-    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
-        board = Ocean.board
-        for row in board:
-            for square in row:
-                if square.sign == ship_sign.upper():
-                    return False
-        return True
+            turn = 1
+
+            self.bot.player_turn()
+
+                # AI strzela rozpierdziela!
 
 
 class MultiPlayerGame(Game):
@@ -59,8 +97,8 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
-        self.put_ships(self.player1)
-        self.put_ships(self.player2)
+        self.put_ships_on_board(self.player1)
+        self.put_ships_on_board(self.player2)
 
         while True:
             self.player1.player_turn()
@@ -90,7 +128,7 @@ class MultiPlayerGame(Game):
 
                 turn = 0
 
-    def put_ships(self, player):
+    def put_ships_on_board(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
@@ -134,38 +172,3 @@ class MultiPlayerGame(Game):
                 return False
             else:
                 print('Wrong input!')
-
-    @staticmethod
-    def check_if_user_input_is_correct(row, line):
-
-        if not row.isdigit() or not len(row) == 1:
-            print('You type wrong sign or number! Try again.')
-            return False
-
-        if not line.isalpha() or not len(line) == 1:
-            print('You type wrong sign or number! Try again.')
-            return False
-
-        else:
-            return True
-
-    @staticmethod
-    def convert_user_input_to_coordinates(row, line):
-        try:
-            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 7}
-            row = int(row) - 1
-
-            if line in board_letter:
-                line = board_letter.get(line)
-        except:
-            print('Wring sings!')
-
-        return (row, line)
-
-    @staticmethod
-    def get_user_input():
-        hit_row = input('Enter number of row you want to hit: ')
-        hit_line = input('Enter number of line you want to hit: ').upper()
-        hit_position = (hit_row, hit_line)
-
-        return hit_position
