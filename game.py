@@ -59,7 +59,8 @@ class MultiPlayerGame(Game):
 
     def start_game(self):
         turn = 0
-        self.put_ships_player1()
+        self.put_ships(self.player1)
+        self.put_ships(self.player2)
 
         while True:
             self.player1.player_turn()
@@ -89,17 +90,16 @@ class MultiPlayerGame(Game):
 
                 turn = 0
 
-    def put_ships_player1(self):
+    def put_ships(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
-            print(self.ocean_player_1)
+            print(player.ocean)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
             try:
-                self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
+                player.put_ship_on_board(ships[0], is_horizontal, starting_position)
             except:
-                os.system('clear')
                 print('You cant place ship here!')
                 continue
             ships.pop(0)
