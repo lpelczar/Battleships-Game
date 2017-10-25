@@ -26,7 +26,6 @@ class Game():
             try:
                 player.put_ship_on_board(ships[0], is_horizontal, starting_position)
             except:
-                print('You cant place ship here!')
                 continue
             ships.pop(0)
 
@@ -84,16 +83,20 @@ class Game():
             if line in board_letter:
                 line = board_letter.get(line)
         except:
-            print('Wring sings!')
+            print('Wrong sings!')
 
         return (row, line)
 
     @staticmethod
     def get_user_input():
-        hit_position = input('Enter coordinates you want to shoot (row,line): ')
-        row, line = hit_position.split(',')
-        line = line.upper()
-        hit_position = (row, line)
+        while True:
+            try:
+                hit_position = input('Enter coordinates you want to shoot (row,line): ')
+                row, line = hit_position.split(',')
+                line = line.upper()
+                hit_position = (row, line)
+            except:
+                continue
 
         return hit_position
 
@@ -110,6 +113,8 @@ class Game():
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
         while ships:
+            os.system('clear')
+            print(player)
             print(player.ocean)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
