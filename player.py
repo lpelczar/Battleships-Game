@@ -51,15 +51,8 @@ class Player():
                             square.change_sign('X')
                             print('Hit!')
                             print(player_ocean)
+                            break
 
-                            for sign in player_ships_sign:
-                                if player.check_if_ship_is_destroyed(sign, player_ocean):
-                                    print("Your ship: " + sign + "has been sunk!")
-                                    player_ships_sign.remove(sign)
-
-                            if not player_ships_sign:
-                                print("You lose!")
-                                return True
             else:
                 row = random.randint(1, 8)
                 line = random.randint(1, 8)
