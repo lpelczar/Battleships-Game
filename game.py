@@ -26,7 +26,6 @@ class Game():
             try:
                 player.put_ship_on_board(ships[0], is_horizontal, starting_position)
             except:
-                print('You cant place ship here!')
                 continue
             ships.pop(0)
 
@@ -84,7 +83,7 @@ class Game():
             if line in board_letter:
                 line = board_letter.get(line)
         except:
-            print('Wring sings!')
+            print('Wrong sings!')
 
         return (row, line)
 
@@ -112,15 +111,6 @@ class Game():
             for square in row:
                 if isinstance(square, ShipSquare):
                     square.change_sign(' ')
-
-    @staticmethod
-    def show_all_ships(Ocean):
-        board = Ocean.board
-        for row in board:
-            for square in row:
-                if isinstance(square, ShipSquare):
-                    square.change_sign('o')
-
 
 class SingleGame(Game):
 
