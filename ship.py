@@ -20,8 +20,6 @@ class Ship():
         x = starting_point[0]
         y = starting_point[1]
 
-        print(x, y)
-
         if self.is_horizontal:
             if x <= 0 or x + self.space >= 9 or y <= 0 or y >= 9:
                 raise ValueError('Your ship is hanging off the border!')

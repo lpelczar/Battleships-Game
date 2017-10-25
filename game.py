@@ -1,4 +1,5 @@
 import abc
+import os
 from ocean import Ocean
 from player import Player
 
@@ -95,8 +96,12 @@ class MultiPlayerGame(Game):
             print(self.ocean_player_1)
             is_horizontal = self.is_horizontal_input(ships[0])
             starting_position = self.get_position_input(ships[0])
-
-            self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
+            try:
+                self.player1.put_ship_on_board(ships[0], is_horizontal, starting_position)
+            except:
+                os.system('clear')
+                print('You cant place ship here!')
+                continue
             ships.pop(0)
 
     @staticmethod
