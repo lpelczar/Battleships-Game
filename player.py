@@ -1,5 +1,6 @@
 from time import time
 from ship import *
+import random
 
 class Player():
 
@@ -15,20 +16,20 @@ class Player():
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
 
     def put_all_ships(self):
-        ca = Carrier(self.is_human, self.ocean, None, None)
-        ba = Battleship(self.is_human, self.ocean, None, None)
-        cr = Cruiser(self.is_human, self.ocean, None, None)
-        su = Submarine(self.is_human, self.ocean, None, None)
-        de = Destroyer(self.is_human, self.ocean, None, None)
+        Carrier(self.is_human, self.ocean, None, None)
+        BattleShip(self.is_human, self.ocean, None, None)
+        Cruiser(self.is_human, self.ocean, None, None)
+        Submarine(self.is_human, self.ocean, None, None)
+        Destroyer(self.is_human, self.ocean, None, None)
 
     def player_turn(self):
         print('Turn: ', self.name)
         print(self.ocean)
 
     def shot_outcome(self, ocean, positions):
-        positions[0] = shot_position_x
-        positions[1] = shot_position_y
-        if not isinstace(ocean[shot_position_x, shot_position_y], ShipSquare):
+        shot_position_x = positions[0]
+        shot_position_y = positions[1]
+        if not isinstance(ocean[shot_position_x, shot_position_y], ShipSquare):
             print('Shot missed')
             return False
         else:
@@ -38,7 +39,7 @@ class Player():
 
     def ai_guess(self, difficulty_level, player_ocean):
         while True:
-            hit_success = randint(0, 50 * difficulty_level)
+            hit_success = random.randint(0, 50 * difficulty_level)
             if hit_success > 30:
                 for line in player_ocean:
                     for square in line:
@@ -47,8 +48,8 @@ class Player():
                             square.change_sign('X')
                             print('Hit!')
             else:
-                shot_position_x = randint(1, 8)
-                shot_position_y = randint(1, 8)
+                shot_position_x = random.randint(1, 8)
+                shot_position_y = random.randint(1, 8)
                 positions = [shot_position_x, shot_position_y]
                 print('Shot at: ' + str(shot_position_x) + str(shot_position_y) + 'outcome: ')
                 if not self.shot_outcome(player_ocean, positions):

@@ -38,6 +38,10 @@ class SingleGame(Game):
         #         self.bot.player_turn()
                 # AI strzela rozpierdziela!
 
+    def check_if_ship_is_destroyed(ship_sign:str, ocean: Ocean):
+        border = Ocean.ocean
+
+
 
 class MultiPlayerGame(Game):
 
