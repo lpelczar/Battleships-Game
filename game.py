@@ -105,7 +105,6 @@ class Game():
                     return False
         return True
 
-<<<<<<< HEAD
     def put_ships_on_board(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
