@@ -4,7 +4,6 @@ import os
 from highscore import HighScoreManager
 
 
-
 def main():
     # highscore = import_highscore()
     os.system('clear')

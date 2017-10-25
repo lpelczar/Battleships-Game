@@ -2,6 +2,7 @@ import abc
 import os
 from ocean import Ocean
 from player import Player
+from ship import *
 
 
 class Game():
@@ -103,6 +104,22 @@ class Game():
                 if square.sign == ship_sign.upper():
                     return False
         return True
+
+    @staticmethod
+    def hide_all_ships(Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if isinstance(square, ShipSquare):
+                    square.change_sign(' ')
+
+    @staticmethod
+    def show_all_ships(Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if isinstance(square, ShipSquare):
+                    square.change_sign('o')
 
 
 class SingleGame(Game):
