@@ -33,36 +33,57 @@ class Player():
         line = positions[1]
         print(row, line)
         if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
-            self.ocean.board[line][row].change_sign('0')
+            self.opponent_ocean.board[line][row].change_sign('0')
             print('Shot missed')
             return False
         else:
-            self.ocean.board[line][row].change_sign('X')
+            self.opponent_ocean.board[line][row].change_sign('X')
             print('Hit!')
             return True
 
-    def ai_guess(self, difficulty_level, player_ocean):
+    def ai_guess(self, difficulty_level, player_ocean, player):
+        print("Computer turn")
+        player_ships_sign = ["BA", "CA", "CR", "SU", "DE"]
+
         while True:
-            hit_success = random.randint(0, 50 * difficulty_level)
 
-            if hit_success > 30:
+            hit_success = random.randint(0, 50 * int(difficulty_level))
 
-                for line in player_ocean:
+            if hit_success > 50:
+
+                for line in player_ocean.board:
 
                     for square in line:
-
                         if isinstance(square, ShipSquare):
-                            print('Shot at: ' + str(player_ocean.index(square)) + str(line.index(square)) + 'outcome: ')
                             square.change_sign('X')
                             print('Hit!')
                             print(player_ocean)
+
+                            for sign in player_ships_sign:
+                                if player.check_if_ship_is_destroyed(sign, player_ocean):
+                                    print("Your ship: " + sign + "has been sunk!")
+                                    player_ships_sign.remove(sign)
+
+                            if not player_ships_sign:
+                                print("You lose!")
+                                return True
             else:
                 row = random.randint(1, 8)
-                line = random.choice(1, 8)
+                line = random.randint(1, 8)
                 positions = [row, line]
                 print('Shot at: ' + str(row) + str(line) + 'outcome: ')
                 if not self.shot_outcome(positions):
                     break
 
+            for sign in player_ships_sign:
+                    if player.check_if_ship_is_destroyed(sign, player_ocean):
+                        print("Your ship: " + sign + "has been sunk!")
+                        player_ships_sign.remove(sign)
+
+            if not player_ships_sign:
+                    "You lose!"
+                    return True
+
     def __str__(self):
         return self.name
+
