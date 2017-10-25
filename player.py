@@ -25,7 +25,8 @@ class Player():
         row = positions[0]
         line = positions[1]
         print(row, line)
-        if isinstance(self.opponent_ocean.board[line][row], ShipSquare):
+        if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
+            self.ocean.board[line][row].change_sign('0')
             print('Shot missed')
             return False
         else:
@@ -49,14 +50,9 @@ class Player():
                             print('Hit!')
                             print(player_ocean)
             else:
-                shot_position_x = random.randint(1, 8)
-                shot_position_y = random.randint(1, 8)
-                positions = [shot_position_x, shot_position_y]
-                print('Shot at: ' + str(shot_position_x) + str(shot_position_y) + 'outcome: ')
-                print(player_ocean)
                 row = random.randint(1, 8)
-                line = random.randint(1, 8)
+                line = random.choice(1, 8)
                 positions = [row, line]
                 print('Shot at: ' + str(row) + str(line) + 'outcome: ')
-                if not self.shot_outcome(player_ocean, positions):
+                if not self.shot_outcome(positions):
                     break

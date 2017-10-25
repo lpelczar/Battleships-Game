@@ -111,14 +111,16 @@ class SingleGame(Game):
         self.bot = Player('Computer', False, self.ocean_bot, self.ocean_player_1)
 
     def start_game(self):
-        self.bot.put_all_ships()
+        self.ocean_bot.put_all_ships_for_bot()
         print(self.ocean_bot)
         turn = 0
         while True:
             self.player.player_turn()
             hit_position = self.get_user_input()
+            incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
+            hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
             print(hit_position)
-            self.player.shot_outcome(self.ocean_bot, hit_position)
+            self.player.shot_outcome(hit_position)
 
             turn = 1
 
