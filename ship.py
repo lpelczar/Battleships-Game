@@ -2,6 +2,7 @@ import random
 
 from ocean import Ocean
 from square import *
+from time import time
 
 
 class Ship():
@@ -46,6 +47,7 @@ class Ship():
         return any(isinstance(i, ShipSquare) for i in surrounding)
 
     def create_ship_by_computer(self):
+        start = time()
         while True:
             orientation = random.choice(['horizontal', 'vertical'])
             self.is_horizontal = True if orientation == 'horizontal' else False
@@ -54,6 +56,12 @@ class Ship():
             try:
                 self.create_ship_by_user([y, x])
             except:
+                end = time()
+                diff = int((end-start)*1000.0)
+                print(diff)
+                if diff > 500:
+                    self.ocean.create_board()
+                    self.ocean.put_all_ships_for_bot()
                 continue
             break
 

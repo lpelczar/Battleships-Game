@@ -5,9 +5,6 @@ from player import Player
 
 class Game():
 
-    # def __init__(self):
-    #     pass
-
     @abc.abstractmethod
     def start_game(self):
         pass
