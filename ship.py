@@ -21,8 +21,14 @@ class Ship():
         x = starting_point[0]
         y = starting_point[1]
 
-        if x < 1 or y < 1 or x + self.space > 9 or y + self.space > 9:
-            raise ValueError('Your ship is hanging off the border!')
+        print(x, y)
+
+        if self.is_horizontal:
+            if x <= 0 or x + self.space >= 9 or y <= 0 or y >= 9:
+                raise ValueError('Your ship is hanging off the border!')
+        else:
+            if y <= 0 or y + self.space >= 9 or x <= 0 or x >= 9:
+                raise ValueError('Your ship is hanging off the border!')
 
         if self.is_another_ship_near(x, y):
             raise ValueError('You cant put ship near another ship!')
@@ -64,7 +70,6 @@ class Ship():
                     self.ocean.put_all_ships_for_bot()
                 continue
             break
-
 
     def __str__(self):
         return self.sign
