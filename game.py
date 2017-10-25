@@ -1,5 +1,4 @@
 import abc
-import os
 from ocean import Ocean
 from player import Player
 
@@ -12,6 +11,51 @@ class Game():
     @abc.abstractmethod
     def start_game(self):
         pass
+
+    def put_ships_on_board(self, player):
+        ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
+
+        while ships:
+            print(player.ocean)
+            is_horizontal = self.is_horizontal_input(ships[0])
+            starting_position = self.get_position_input(ships[0])
+            try:
+                player.put_ship_on_board(ships[0], is_horizontal, starting_position)
+            except:
+                print('You cant place ship here!')
+                continue
+            ships.pop(0)
+
+    @staticmethod
+    def get_position_input(ship_name):
+        while True:
+            position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
+            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
+            try:
+                x, y = position.split(',')
+                x = int(x) - 1
+                if y.isalpha():
+                    y = y.upper()
+                    if y in board_letter:
+                        y = board_letter.get(y)
+                else:
+                    y = int(y) - 1
+                break
+            except:
+                print('Wrong input!')
+                continue
+        return x, y
+
+    @staticmethod
+    def is_horizontal_input(ship_name):
+        while True:
+            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
+            if user_input == 'h':
+                return True
+            elif user_input == 'v':
+                return False
+            else:
+                print('Wrong input!')
 
     @staticmethod
     def check_if_user_input_is_correct(row, line):
@@ -127,48 +171,3 @@ class MultiPlayerGame(Game):
                 # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
                 turn = 0
-
-    def put_ships_on_board(self, player):
-        ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
-
-        while ships:
-            print(player.ocean)
-            is_horizontal = self.is_horizontal_input(ships[0])
-            starting_position = self.get_position_input(ships[0])
-            try:
-                player.put_ship_on_board(ships[0], is_horizontal, starting_position)
-            except:
-                print('You cant place ship here!')
-                continue
-            ships.pop(0)
-
-    @staticmethod
-    def get_position_input(ship_name):
-        while True:
-            position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
-            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
-            try:
-                x, y = position.split(',')
-                x = int(x) - 1
-                if y.isalpha():
-                    y = y.upper()
-                    if y in board_letter:
-                        y = board_letter.get(y)
-                else:
-                    y = int(y) - 1
-                break
-            except:
-                print('Wrong input!')
-                continue
-        return x, y
-
-    @staticmethod
-    def is_horizontal_input(ship_name):
-        while True:
-            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
-            if user_input == 'h':
-                return True
-            elif user_input == 'v':
-                return False
-            else:
-                print('Wrong input!')
