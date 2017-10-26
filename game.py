@@ -1,7 +1,6 @@
 import abc
 import os
 from copy import deepcopy
-
 from highscore import HighScoreManager
 from player import Player
 from ship import *
@@ -19,6 +18,11 @@ class Game():
 
     @staticmethod
     def is_horizontal_input(ship_name):
+        """
+        Method checks in which orientation player is keen to place the ship.
+        :param ship_name: str - > name of the ship
+        :return: bool -> if horizontal returns
+        """
         while True:
             user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
             if user_input == 'h':
@@ -29,41 +33,57 @@ class Game():
                 print('Wrong input!')
 
     @staticmethod
-    def convert_user_input_to_coordinates(row, line):
+    def convert_user_input_to_coordinates(row, column):
+        """
+        Method converts user input to coordinates
+        :param row: str - > row input
+        :param column: str - > column input
+        :return: None
+        """
         board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
         row = int(row) - 1
 
-        if line in board_letter:
-            line = board_letter.get(line)
+        if column in board_letter:
+            column = board_letter.get(column)
 
-        return (row, line)
+        return (row, column)
 
     @staticmethod
     def get_user_input():
+        """
+        Method gets user coordinates input
+        :return: list -> a list containg input, where 0 index is row, and 1 index is column
+        """
         while True:
             hit_position = input('Enter coordinates you want to shoot (column,row): ')
             try:
-                row, line = hit_position.split(',')
+                row, column = hit_position.split(',')
             except:
                 print('Your type is wrong, try again!')
                 continue
 
-            line = line.upper()
+            column = column.upper()
 
             if not row.isdigit() or not len(row) == 1 or row == 0:
                 print('You type wrong sign or number! Try again.')
                 continue
 
-            if not line.isalpha() or not len(line) == 1:
+            if not column.isalpha() or not len(column) == 1:
                 print('You type wrong sign or number! Try again.')
                 continue
 
-            hit_position = (row, line)
+            hit_position = (row, column)
 
             return hit_position
 
     @staticmethod
     def check_if_ship_is_destroyed(ship_sign: str, Ocean):
+        """
+        Method check if certain ships is destroyed.
+        :param ship_sign: two char sign of ship i.e. "CA"
+        :param Ocean: ocean object
+        :return: bool - > False if ship is not destroyed, otherwise True
+        """
         board = Ocean.board
         for row in board:
             for square in row:
@@ -73,6 +93,11 @@ class Game():
 
     @staticmethod
     def check_if_all_ship_are_destroyed(ocean:Ocean):
+        """
+        Method check if certain ships is destroyed.
+        :param Ocean: ocean object
+        :return: bool - > False if all ships are not destroyed, otherwise True
+        """
         board = Ocean.board
         for row in board:
             for square in row:
@@ -81,6 +106,11 @@ class Game():
         return True
 
     def put_ships_on_board(self, player):
+        """
+        Method put all ships on board
+        :param player: Player -> player instance
+        :return:
+        """
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
         movement_keys = ['w', 's', 'a', 'd']
         decoy_ocean = Ocean()
@@ -99,8 +129,10 @@ class Game():
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
+
                 print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r and'
                       ' quit with q ')
+
                 move_ship = getch()
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
@@ -127,9 +159,15 @@ class Game():
 
     @staticmethod
     def move_ship_on_board(is_horizontal, position, ship_type, move_ship):
+        """
+        Method puts ships on board using WSAD buttons
+        :param is_horizontal: bool - > is ship orientation horizontal
+        :param position: list -> list containing starting postition
+        :param ship_type: str -> ship type
+        :param move_ship: str -> direction
+        :return: None
+        """
         position = list(position)
-
-
         ships_lengths = {'Carrier': 5, 'Battleship': 4, 'Cruiser': 3, 'Submarine': 3, 'Destroyer': 2}
         ship_length = ships_lengths[ship_type]
         if is_horizontal:
@@ -171,6 +209,11 @@ class Game():
 
     @staticmethod
     def get_position_input(ship_name):
+        """
+        Method get from user starting ship position and return coordinates
+        :param ship_name: str-> name of the ship
+        :return: int, int - > coordinates
+        """
         while True:
             position = input('Enter starting position of a ' + ship_name + ': (x,y) ')
             board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
@@ -191,6 +234,11 @@ class Game():
 
     @staticmethod
     def hide_all_ships(Ocean):
+        """
+        Method hide all ships from ocean board
+        :param Ocean:
+        :return: None
+        """
         board = Ocean.board
         for row in board:
             for square in row:
@@ -199,6 +247,11 @@ class Game():
 
     @staticmethod
     def show_all_ships(Ocean):
+        """
+        Method all hidden from ocean board
+        :param Ocean:
+        :return: None
+        """
         board = Ocean.board
         for row in board:
             for square in row:
@@ -209,7 +262,7 @@ class Game():
 class SingleGame(Game):
 
     def __init__(self, player_name, difficulty_level):
-        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
+        self.difficulty_level = difficulty_level  #difficulty level where 0 = easy, 1 = medium, 2 = hard
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
         self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
@@ -219,8 +272,7 @@ class SingleGame(Game):
     def start_game(self):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
-        print(self.ocean_bot)
-        turn = 0
+
         os.system('clear')
         while True:
             self.player.player_turn(self.player.name)
@@ -236,12 +288,15 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
-                print("Congratulations, you win!")
-                break
+                win = self.player1.name, 'win game! Congratulations!'
+                print(win)
+                end_time = time()
+                end_time = int(end_time - start_time)
+                HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
+                return win
 
             if shot_outcome:
                 continue
-            turn += 1
 
             bot_turn = self.bot.ai_guess(self.difficulty_level, self.ocean_player_1, self)
             if bot_turn:
@@ -274,6 +329,7 @@ class MultiPlayerGame(Game):
 
             if is_win is True:
                 win = self.player1.name, 'win game! Congratulations!'
+                print(win)
                 end_time = time()
                 end_time = int(end_time - start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
@@ -298,6 +354,7 @@ class MultiPlayerGame(Game):
 
                 if is_win is True:
                     win = self.player2.name, 'win game! Congratulations!'
+                    print(win)
                     end_time = time()
                     end_time = int(end_time - start_time)
                     HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)
