@@ -39,7 +39,7 @@ class Game():
     @staticmethod
     def get_user_input():
         while True:
-            hit_position = input('Enter coordinates you want to shoot (row,column): ')
+            hit_position = input('Enter coordinates you want to shoot (column,row): ')
             row, line = hit_position.split(',')
             line = line.upper()
             print(row, line)

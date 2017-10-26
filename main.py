@@ -39,9 +39,12 @@ def main():
             multiplayer_game.start_game()
 
         elif option == '3':
+            os.system('clear')
             HighScoreManager.print_highscore()
+            print('\n')
 
         elif option == '4':
+            os.system('clear')
             exit("Thanks for playing.")
 
 
