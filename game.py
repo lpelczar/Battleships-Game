@@ -313,10 +313,8 @@ class MultiPlayerGame(Game):
         while True:
             self.player1.player_turn(self.player1.name)
 
-            incorrect_inputs = False
-            while incorrect_inputs is False:
-                hit_position = self.get_user_input()
-                hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+            hit_position = self.get_user_input()
+            hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
             is_hit = self.player1.shot_outcome(hit_position)
             is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_2)
@@ -325,7 +323,7 @@ class MultiPlayerGame(Game):
                 win = self.player1.name, 'win game! Congratulations!'
                 print(win)
                 end_time = time()
-                end_time = int(end_time - start_time)
+                end_time = int(end_time - self.start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
 
                 return win
@@ -337,11 +335,8 @@ class MultiPlayerGame(Game):
             while turn == 1:
                 self.player2.player_turn(self.player2.name)
 
-                incorrect_inputs = False
-                while incorrect_inputs is False:
-                    hit_position = self.get_user_input()
-                    incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
-                    hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+                hit_position = self.get_user_input()
+                hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
                 is_hit = self.player2.shot_outcome(hit_position)
                 is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_1)
@@ -350,7 +345,7 @@ class MultiPlayerGame(Game):
                     win = self.player2.name, 'win game! Congratulations!'
                     print(win)
                     end_time = time()
-                    end_time = int(end_time - start_time)
+                    end_time = int(end_time - self.start_time)
                     HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)
                     return win
 
