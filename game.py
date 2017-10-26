@@ -109,6 +109,15 @@ class Game():
                     return False
         return True
 
+    @staticmethod
+    def check_if_all_ship_are_destroyed(ocean:Ocean):
+        board = Ocean.board
+        for row in board:
+            for square in row:
+                if isinstance(square, OceanSquare):
+                    return False
+        return True
+
     def put_ships_on_board(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
 
@@ -190,7 +199,7 @@ class SingleGame(Game):
         print(self.ocean_bot)
         turn = 0
         while True:
-            self.player.player_turn(player_name)
+            self.player.player_turn(self.player.name)
             hit_position = self.get_user_input()
             incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
@@ -201,7 +210,7 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + "has been sunk!")
                     self.ship_signs.remove(sign)
             if not self.ship_signs:
-                "Congratulations, you win!"
+                print("Congratulations, you win!")
                 break
             if shot_outcome:
                 continue
