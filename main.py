@@ -1,5 +1,3 @@
-import os
-
 from game import *
 from highscore import HighScoreManager
 
@@ -20,6 +18,7 @@ def main():
 
             player_name = input('Enter player name: ')
             difficulty_level = input('Enter difficulty of computer player(0:easy, 1:medium, 2:hard):\n')
+            os.system('clear')
 
             singleplayer_game = SingleGame(player_name, difficulty_level)
             singleplayer_game.start_game()
