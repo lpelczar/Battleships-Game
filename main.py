@@ -18,9 +18,15 @@ def main():
             os.system('clear')
 
             player_name = input('Enter player name: ')
-            difficulty_level = input('Enter difficulty of computer player(0:easy, 1:medium, 2:hard):\n')
+            difficulty_level = None
+            while True:
+                try:
+                    os.system('clear')
+                    difficulty_level = int(input('Enter difficulty of computer player(0:easy, 1:medium, 2:hard): '))
+                    if difficulty_level in [0, 1, 2]: break
+                except:
+                    continue
             os.system('clear')
-
             singleplayer_game = SingleGame(player_name, difficulty_level)
             singleplayer_game.start_game()
 
@@ -34,9 +40,12 @@ def main():
             multiplayer_game.start_game()
 
         elif option == '3':
+            os.system('clear')
             HighScoreManager.print_highscore()
+            print('\n')
 
         elif option == '4':
+            os.system('clear')
             exit("Thanks for playing.")
 
 
