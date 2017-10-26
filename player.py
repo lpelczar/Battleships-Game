@@ -1,6 +1,7 @@
 import os
 import time
 from square import *
+import game
 from ship import *
 
 
@@ -41,7 +42,9 @@ class Player():
         :param player_name: String -> Name of a Player object
         """
         ocean_lines = self.ocean.__str__().split('\n')
+        game.Game.hide_all_ships(self.opponent_ocean)
         ocean2_lines = self.opponent_ocean.__str__().split('\n')
+        game.Game.show_all_ships(self.opponent_ocean)
         width = 45
         table_names = 'Your Ocean: ' + ' ' * width + 'Opponent Ocean:'
 
@@ -122,5 +125,6 @@ class Player():
                     time.sleep(2)
                     return True
         os.system('clear')
+        
     def __str__(self):
         return self.name
