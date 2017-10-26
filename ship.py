@@ -7,13 +7,15 @@ from time import time
 
 class Ship():
 
-    def __init__(self, space: int, sign: str, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
+    def __init__(self, space: int, sign: str, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
         self.space = space
         self.sign = sign
         self.ocean = ocean
         self.is_horizontal = is_horizontal
         if player_create:
             self.create_ship_by_user(starting_point)
+        elif is_decoy:
+            self.create_ship_by_decoy(starting_point)
         else:
             self.create_ship_by_computer()
 
@@ -22,10 +24,10 @@ class Ship():
         y = starting_point[1]
 
         if self.is_horizontal:
-            if x <= 0 or x + self.space >= 9 or y <= 0 or y >= 9:
+            if x <= 0 or x + self.space >= 10 or y <= 0 or y >= 9:
                 raise ValueError('Your ship is hanging off the border!')
         else:
-            if y <= 0 or y + self.space >= 9 or x <= 0 or x >= 9:
+            if y <= 0 or y + self.space >= 10 or x <= 0 or x >= 9:
                 raise ValueError('Your ship is hanging off the border!')
 
         if self.is_another_ship_near(x, y):
@@ -36,6 +38,16 @@ class Ship():
         else:
             for i in self.ocean.board[y:y + self.space]:
                 i[x] = ShipSquare(self.sign)
+
+    def create_ship_by_decoy(self, position):
+        x = position[0]
+        y = position[1]
+        if self.is_horizontal:
+            self.ocean.board[y][x: x + self.space] = [ShipSquare(self.sign) for i in range(self.space)]
+        else:
+            for i in self.ocean.board[y:y + self.space]:
+                i[x] = ShipSquare(self.sign)
+
 
     def is_another_ship_near(self, x, y):
         surrounding = []
@@ -74,28 +86,28 @@ class Ship():
 
 class Carrier(Ship):
 
-    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
-        super().__init__(5, "CA", player_create, ocean, is_horizontal, starting_point)
+    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
+        super().__init__(5, "CA", player_create, ocean, is_horizontal, starting_point, is_decoy)
 
 
 class Battleship(Ship):
 
-    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
-        super().__init__(4, "BA", player_create, ocean, is_horizontal, starting_point)
+    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
+        super().__init__(4, "BA", player_create, ocean, is_horizontal, starting_point, is_decoy)
 
 
 class Cruiser(Ship):
 
-    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
-        super().__init__(3, "CR", player_create, ocean, is_horizontal, starting_point)
+    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
+        super().__init__(3, "CR", player_create, ocean, is_horizontal, starting_point, is_decoy)
 
 
 class Submarine(Ship):
 
-    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
-        super().__init__(3, "SU", player_create, ocean, is_horizontal, starting_point)
+    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
+        super().__init__(3, "SU", player_create, ocean, is_horizontal, starting_point, is_decoy)
 
 
 class Destroyer(Ship):
-    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int)):
-        super().__init__(2, "DE", player_create, ocean, is_horizontal, starting_point)
+    def __init__(self, player_create: bool, ocean: Ocean, is_horizontal: bool, starting_point: (int, int), is_decoy=False):
+        super().__init__(2, "DE", player_create, ocean, is_horizontal, starting_point, is_decoy)

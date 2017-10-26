@@ -3,6 +3,7 @@ import os
 
 from player import Player
 from ship import *
+from copy import deepcopy
 
 
 class Game():
@@ -14,40 +15,6 @@ class Game():
     def start_game(self):
         pass
 
-    def put_ships_on_board(self, player):
-        ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
-
-        while ships:
-            os.system('clear')
-            print(player)
-            print(player.ocean)
-            is_horizontal = self.is_horizontal_input(ships[0])
-            starting_position = self.get_position_input(ships[0])
-            try:
-                player.put_ship_on_board(ships[0], is_horizontal, starting_position)
-            except:
-                continue
-            ships.pop(0)
-
-    @staticmethod
-    def get_position_input(ship_name):
-        while True:
-            position = input('Enter starting position of a ' + ship_name + ': (row,line) ')
-            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
-            try:
-                x, y = position.split(',')
-                x = int(x) - 1
-                if y.isalpha():
-                    y = y.upper()
-                    if y in board_letter:
-                        y = board_letter.get(y)
-                else:
-                    y = int(y) - 1
-                break
-            except:
-                print('Wrong input!')
-                continue
-        return x, y
 
     @staticmethod
     def is_horizontal_input(ship_name):
@@ -98,7 +65,7 @@ class Game():
             except:
                 continue
 
-        return hit_position
+            return hit_position
 
     @staticmethod
     def check_if_ship_is_destroyed(ship_sign: str, Ocean):
@@ -120,19 +87,85 @@ class Game():
 
     def put_ships_on_board(self, player):
         ships = ['Carrier', 'Battleship', 'Cruiser', 'Submarine', 'Destroyer']
-
+        movement_keys = ['w', 's', 'a', 'd']
+        decoy_ocean = Ocean()
+        decoy = Player('decoy', False, decoy_ocean, player.ocean)
+        is_horizontal = True
         while ships:
-            os.system('clear')
             print(player)
-            print(player.ocean)
-            is_horizontal = self.is_horizontal_input(ships[0])
-            starting_position = self.get_position_input(ships[0])
-            try:
-                player.put_ship_on_board(ships[0], is_horizontal, starting_position)
-            except:
-                print('You cant place ship here!')
-                continue
-            ships.pop(0)
+            print(decoy.ocean)
+            starting_position = 1, 1
+            while True:
+                decoy.ocean.board = deepcopy(player.ocean.board)
+                os.system('clear')
+                decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
+                print(player)
+                print(decoy.ocean)
+                move_ship = input('use w,s,a,d to move your ship,q to flip them, than p to place it.'
+                                  ' You can restart placing with r')
+                if move_ship in movement_keys:
+                    starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
+                elif move_ship == 'q':
+                    if is_horizontal:
+                        is_horizontal = False
+                    else:
+                        is_horizontal = True
+                elif move_ship == 'p':
+                    try:
+                        player.put_ship_on_board(ships[0], is_horizontal, starting_position, False)
+                        print(player.ocean)
+                        ships.pop(0)
+                        break
+                    except:
+                        print('You cant place ship here!')
+                        continue
+                elif move_ship == 'r':
+                    player.ocean = Ocean()
+                    self.put_ships_on_board(player)
+                else:
+                    print('Incorrect input!')
+
+    @staticmethod
+    def move_ship_on_board(is_horizontal, position, ship_type, move_ship):
+        position = list(position)
+        ships_lengths = {'Carrier': 5, 'Battleship': 4, 'Cruiser': 3, 'Submarine': 3, 'Destroyer': 2}
+        ship_length = ships_lengths[ship_type]
+        if is_horizontal:
+            if move_ship == 'w':
+                if position[1] > 1:
+                    position[1] -= 1
+
+            elif move_ship == 's':
+                if position[1] < 8:
+                    position[1] += 1
+
+            elif move_ship == 'a':
+                if position[0] > 1:
+                    position[0] -= 1
+
+            elif move_ship == 'd':
+                if position[0] < 9 - ship_length:
+                    position[0] += 1
+        else:
+            if move_ship == 'w':
+                if position[1] > 1:
+                    position[1] -= 1
+
+            elif move_ship == 's':
+                if position[1] < 9 - ship_length:
+                    position[1] += 1
+
+            elif move_ship == 'a':
+                if position[0] > 1:
+                    position[0] -= 1
+
+            elif move_ship == 'd':
+                if position[0] < 8:
+                    position[0] += 1
+
+        position = tuple(position)
+
+        return position
 
     @staticmethod
     def get_position_input(ship_name):
@@ -203,18 +236,17 @@ class SingleGame(Game):
             hit_position = self.get_user_input()
             incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
-            print(hit_position)
             shot_outcome = self.player.shot_outcome(hit_position)
             for sign in self.ship_signs:
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
-                    print("Enemy ship: " + sign + "has been sunk!")
+                    print("Enemy ship: " + sign + " has been sunk!")
                     self.ship_signs.remove(sign)
             if not self.ship_signs:
                 print("Congratulations, you win!")
                 break
             if shot_outcome:
                 continue
-            turn = 1
+            turn += 1
             bot_turn = self.bot.ai_guess(self.difficulty_level, self.ocean_player_1, self)
             if bot_turn:
                 break
