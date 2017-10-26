@@ -63,6 +63,7 @@ class Player():
 
         row = positions[ROW_INDEX]
         line = positions[LINE_INDEX]
+        print(row, line)
         if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
             self.opponent_ocean.board[line][row].change_sign('0')
             self.misses += 1
@@ -79,12 +80,13 @@ class Player():
         for line in player_ocean.board:
             for square in line:
                 if isinstance(square, ShipSquare):
+                    row = player_ocean.board.index(line)
+                    column = line.index(square)
                     line[line.index(square)] = OceanSquare('X')
                     print('Hit!')
                     print(player_ocean)
                     sleep(1)
                     os.system('clear')
-                    return
 
     def ai_guess(self, difficulty_level, player_ocean, player):
         """
@@ -96,6 +98,7 @@ class Player():
         """
         print("Computer turn")
         player_ships_sign = ["BA", "CA", "CR", "SU", "DE"]
+        already_shot_positions = []
 
         MIN_ROW = 1
         MAX_ROW = 8
@@ -108,10 +111,16 @@ class Player():
             if hit_success > MIN_VALUE_FOR_HIT:
                 self.ai_find_and_shoot(player_ocean)
 
+
             else:
-                row = random.randint(MIN_ROW, MAX_ROW)
-                line = random.randint(MIN_ROW, MAX_ROW)
-                positions = [row, line]
+                while True:
+                    row = random.randint(MIN_ROW, MAX_ROW)
+                    line = random.randint(MIN_ROW, MAX_ROW)
+                    positions = [row, line]
+                    if positions in already_shot_positions:
+                        continue
+                    else:
+                        break
                 if not self.shot_outcome(positions):
                     break
 
