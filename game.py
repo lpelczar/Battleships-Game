@@ -40,10 +40,13 @@ class Game():
     def get_user_input():
         while True:
             hit_position = input('Enter coordinates you want to shoot (row,line): ')
-            row, line = hit_position.split(',', '.')
+            try:
+                row, line = hit_position.split(',')
+            except:
+                print('Your type is wrong, try again!')
+                continue
 
             line = line.upper()
-            print(row, line)
 
             if not row.isdigit() or not len(row) == 1 or row == 0:
                 print('You type wrong sign or number! Try again.')
