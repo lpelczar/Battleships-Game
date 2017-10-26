@@ -1,6 +1,6 @@
 class Square:
     """
-    Abstract class for representation of a single Square on board
+    Class for representation of a single Square on board
     """
     def __init__(self, sign):
         """
