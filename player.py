@@ -96,6 +96,7 @@ class Player():
         """
         print("Computer turn")
         player_ships_sign = ["BA", "CA", "CR", "SU", "DE"]
+        already_shot_positions = []
 
         MIN_ROW = 1
         MAX_ROW = 8
@@ -109,9 +110,14 @@ class Player():
                 self.ai_find_and_shoot(player_ocean)
 
             else:
-                row = random.randint(MIN_ROW, MAX_ROW)
-                line = random.randint(MIN_ROW, MAX_ROW)
-                positions = [row, line]
+                while True:
+                    row = random.randint(MIN_ROW, MAX_ROW)
+                    line = random.randint(MIN_ROW, MAX_ROW)
+                    positions = [row, line]
+                    if positions in already_shot_positions:
+                        continue
+                    else:
+                        break
                 if not self.shot_outcome(positions):
                     break
 
