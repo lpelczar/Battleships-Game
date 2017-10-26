@@ -39,12 +39,12 @@ class Game():
     @staticmethod
     def get_user_input():
         while True:
-            hit_position = input('Enter coordinates you want to shoot (row,line): ')
-            row, line = hit_position.split('')
+            hit_position = inpuon.split(',')
             line = line.upper()
-            print(row, line)
+            print(row, line)t('Enter coordinates you want to shoot (column,row): ')
+            row, line = hit_positi
 
-            if not row.isdigit() or not len(row) == 1:
+            if not row.isdigit() or not len(row) == 1 or row == 0:
                 print('You type wrong sign or number! Try again.')
                 continue
 
@@ -90,7 +90,7 @@ class Game():
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
-                move_ship = input('use w,s,a,d to move your ship, than p to place it.You can restart placing with r')
+                move_ship = input('use w,s,a,d to move your ship, than p to place it. You can restart placing with r: ')
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
                 elif move_ship == 'p':
