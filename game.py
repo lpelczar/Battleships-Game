@@ -40,7 +40,7 @@ class Game():
     @staticmethod
     def get_user_input():
         while True:
-            hit_position = input('Enter coordinates you want to shoot (row,column): ')
+            hit_position = input('Enter coordinates you want to shoot (column,row): ')
             try:
                 row, line = hit_position.split(',')
             except:
@@ -225,7 +225,6 @@ class SingleGame(Game):
             os.system('clear')
             shot_outcome = self.player.shot_outcome(hit_position)
 
-            self.check_if_player_win()
             for sign in self.ship_signs:
 
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
