@@ -2,6 +2,7 @@ import os
 import random
 from square import *
 from ship import *
+import time
 
 
 class Player():
@@ -79,7 +80,8 @@ class Player():
                         player_ships_sign.remove(sign)
 
             if not player_ships_sign:
-                    "You lose!"
+                    print("You lose FOOL!!!!!")
+                    time.sleep(2)
                     return True
 
     def __str__(self):
