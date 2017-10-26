@@ -3,9 +3,9 @@ import os
 from copy import deepcopy
 
 from highscore import HighScoreManager
+from keygetch import getch
 from player import Player
 from ship import *
-from keygetch import getch
 
 
 class Game():
@@ -309,7 +309,9 @@ class MultiPlayerGame(Game):
     def start_game(self):
         turn = 0
         self.put_ships_on_board(self.player1)
+        os.system('clear')
         self.put_ships_on_board(self.player2)
+        os.system('clear')
 
         while True:
             self.player1.player_turn(self.player1.name)
