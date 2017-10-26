@@ -1,6 +1,6 @@
 import os
 import random
-
+from square import *
 from ship import *
 
 
