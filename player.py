@@ -19,7 +19,6 @@ class Player():
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point, is_decoy)
 
     def player_turn(self, player_name):
-        os.system('clear')
         ocean_lines = self.ocean.__str__().split('\n')
         ocean2_lines = self.opponent_ocean.__str__().split('\n')
         width = 45
@@ -32,7 +31,6 @@ class Player():
     def shot_outcome(self, positions):
         row = positions[0]
         line = positions[1]
-
         if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
             self.opponent_ocean.board[line][row].change_sign('0')
             self.misses += 1
@@ -71,7 +69,7 @@ class Player():
                 row = random.randint(1, 8)
                 line = random.randint(1, 8)
                 positions = [row, line]
-                print('Shot at: ' + str(row) + str(line) + 'outcome: ')
+                print('Shot at: ' + str(row) + str(line) + ' outcome: ')
                 if not self.shot_outcome(positions):
                     break
 
