@@ -58,20 +58,20 @@ class Player():
 
         :param positions: int, int -> Tuple with shooted position
         """
-        ROW_INDEX = 0
-        LINE_INDEX = 1
+        COLUMN_INDEX = 0
+        ROW_INDEX = 1
 
+        column = positions[COLUMN_INDEX]
         row = positions[ROW_INDEX]
-        line = positions[LINE_INDEX]
-        print(row, line)
-        if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
-            self.opponent_ocean.board[line][row].change_sign('0')
+        print(row, column)
+        if not isinstance(self.opponent_ocean.board[row][column], ShipSquare):
+            self.opponent_ocean.board[row][column].change_sign('0')
             self.misses += 1
             self.total_hits += 1
             print('Shot missed')
             return False
         else:
-            self.opponent_ocean.board[line][row] = OceanSquare('X')
+            self.opponent_ocean.board[row][column] = OceanSquare('X')
             self.total_hits += 1
             print('Hit!')
             return True
@@ -83,10 +83,12 @@ class Player():
                     row = player_ocean.board.index(line)
                     column = line.index(square)
                     line[line.index(square)] = OceanSquare('X')
+                    print(column, row)
                     print('Hit!')
                     print(player_ocean)
-                    sleep(1)
+                    sleep(5)
                     os.system('clear')
+                    return column, row
 
     def ai_guess(self, difficulty_level, player_ocean, player):
         """
@@ -109,17 +111,21 @@ class Player():
         while True:
             hit_success = random.randint(MIN_HIT_CHANCE, MAX_HIT_CHANCE * int(difficulty_level))
             if hit_success > MIN_VALUE_FOR_HIT:
-                self.ai_find_and_shoot(player_ocean)
-
-
+                try:
+                    column, row = self.ai_find_and_shoot(player_ocean)
+                    positions = [column, row]
+                    already_shot_positions.append(positions)
+                except TypeError:
+                    pass
             else:
                 while True:
                     row = random.randint(MIN_ROW, MAX_ROW)
-                    line = random.randint(MIN_ROW, MAX_ROW)
-                    positions = [row, line]
+                    column = random.randint(MIN_ROW, MAX_ROW)
+                    positions = [column, row]
                     if positions in already_shot_positions:
                         continue
                     else:
+                        already_shot_positions.append(positions)
                         break
                 if not self.shot_outcome(positions):
                     break
@@ -132,6 +138,7 @@ class Player():
             if not player_ships_sign:
                     print("You lose FOOL!!!!!")
                     sleep(2)
+                    input('Press enter to continue.')
                     return True
         os.system('clear')
         
