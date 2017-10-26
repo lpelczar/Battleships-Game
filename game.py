@@ -39,8 +39,6 @@ class Game():
     @staticmethod
     def get_user_input():
         while True:
-
-            hit_position = inpuon.split(',')
             hit_position = input('Enter coordinates you want to shoot (row,line): ')
             try:
                 row, line = hit_position.split(',')
@@ -57,6 +55,7 @@ class Game():
             if not line.isalpha() or not len(line) == 1:
                 print('You type wrong sign or number! Try again.')
                 continue
+
             hit_position = (row, line)
 
             return hit_position
