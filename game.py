@@ -1,6 +1,7 @@
 import abc
 import os
 from copy import deepcopy
+
 from highscore import HighScoreManager
 from keygetch import getch
 from player import Player
@@ -98,7 +99,7 @@ class Game():
         :param Ocean: ocean object
         :return: bool - > False if all ships are not destroyed, otherwise True
         """
-        board = Ocean.board
+        board = ocean.board
         for row in board:
             for square in row:
                 if isinstance(square, OceanSquare):
@@ -291,7 +292,7 @@ class SingleGame(Game):
                 win = self.player1.name, 'win game! Congratulations!'
                 print(win)
                 end_time = time()
-                end_time = int(end_time - start_time)
+                end_time = int(end_time - self.start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
                 return win
 
@@ -311,8 +312,10 @@ class MultiPlayerGame(Game):
         self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
         self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
 
+
     def start_game(self):
         turn = 0
+        os.system('clear')
         self.put_ships_on_board(self.player1)
         os.system('clear')
         self.put_ships_on_board(self.player2)
@@ -324,7 +327,12 @@ class MultiPlayerGame(Game):
             hit_position = self.get_user_input()
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
+            os.system('clear')
             is_hit = self.player1.shot_outcome(hit_position)
+
+            if not is_hit:
+                input('Pass computer to player 2 and press enter')
+                os.system('clear')
             is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_2)
 
             if is_win is True:
@@ -345,8 +353,11 @@ class MultiPlayerGame(Game):
 
                 hit_position = self.get_user_input()
                 hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
-
+                os.system('clear')
                 is_hit = self.player2.shot_outcome(hit_position)
+                if not is_hit:
+                    input('Pass computer to player 1 and press enter')
+                    os.system('clear')
                 is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_1)
 
                 if is_win is True:
