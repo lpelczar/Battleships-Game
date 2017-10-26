@@ -40,7 +40,7 @@ class Game():
     def get_user_input():
         while True:
             hit_position = input('Enter coordinates you want to shoot (row,line): ')
-            row, line = hit_position.split(',')
+            row, line = hit_position.split('')
             line = line.upper()
             print(row, line)
 
@@ -211,19 +211,20 @@ class SingleGame(Game):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
         print(self.ocean_bot)
-
         turn = 0
+        os.system('clear')
         while True:
             self.player.player_turn(self.player.name)
             hit_position = self.get_user_input()
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
+            os.system('clear')
             shot_outcome = self.player.shot_outcome(hit_position)
 
             for sign in self.ship_signs:
 
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
-                    print("Enemy ship: " + sign + " has been sunk!")
                     self.ship_signs.remove(sign)
+                    print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
                 print("Congratulations, you win!")
