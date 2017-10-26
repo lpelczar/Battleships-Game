@@ -79,7 +79,7 @@ class Game():
         movement_keys = ['w', 's', 'a', 'd']
         decoy_ocean = Ocean()
         decoy = Player('decoy', False, decoy_ocean, player.ocean)
-        print(player + "'s board")
+        print('Creating mode:\n' + str(player) + "'s board")
         print(decoy.ocean)
         while ships:
             starting_position = 1, 1
@@ -88,7 +88,7 @@ class Game():
                 decoy.ocean.board = deepcopy(player.ocean.board)
                 os.system('clear')
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
-                print(player + "'s board")
+                print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
                 move_ship = input('use w,s,a,d to move your ship, than p to place it.You can restart placing with r')
                 if move_ship in movement_keys:
