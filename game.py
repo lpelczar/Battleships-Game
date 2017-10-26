@@ -15,7 +15,6 @@ class Game():
     def start_game(self):
         pass
 
-
     @staticmethod
     def is_horizontal_input(ship_name):
         while True:
@@ -28,42 +27,32 @@ class Game():
                 print('Wrong input!')
 
     @staticmethod
-    def check_if_user_input_is_correct(row, line):
-
-        if not row.isdigit() or not len(row) == 1:
-            print('You type wrong sign or number! Try again.')
-            return False
-
-        if not line.isalpha() or not len(line) == 1:
-            print('You type wrong sign or number! Try again.')
-            return False
-
-        else:
-            return True
-
-    @staticmethod
     def convert_user_input_to_coordinates(row, line):
-        try:
-            board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
-            row = int(row) - 1
+        board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
+        row = int(row) - 1
 
-            if line in board_letter:
-                line = board_letter.get(line)
-        except:
-            print('Wrong sings!')
+        if line in board_letter:
+            line = board_letter.get(line)
 
         return (row, line)
 
     @staticmethod
     def get_user_input():
         while True:
-            try:
-                hit_position = input('Enter coordinates you want to shoot (row,line): ')
-                row, line = hit_position.split(',')
-                line = line.upper()
-                hit_position = (row, line)
-            except:
+            hit_position = input('Enter coordinates you want to shoot (row,line): ')
+            row, line = hit_position.split(',')
+            line = line.upper()
+            print(row, line)
+
+            if not row.isdigit() or not len(row) == 1:
+                print('You type wrong sign or number! Try again.')
                 continue
+
+            if not line.isalpha() or not len(line) == 1:
+                print('You type wrong sign or number! Try again.')
+                continue
+
+            hit_position = (row, line)
 
             return hit_position
 
@@ -215,7 +204,6 @@ class Game():
                     square.change_sign(square.final_sign)
 
 
-
 class SingleGame(Game):
 
     def __init__(self, player_name, difficulty_level):
@@ -230,23 +218,28 @@ class SingleGame(Game):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
         print(self.ocean_bot)
+
         turn = 0
         while True:
             self.player.player_turn(self.player.name)
             hit_position = self.get_user_input()
-            incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
             shot_outcome = self.player.shot_outcome(hit_position)
+
             for sign in self.ship_signs:
+
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
                     print("Enemy ship: " + sign + " has been sunk!")
                     self.ship_signs.remove(sign)
+
             if not self.ship_signs:
                 print("Congratulations, you win!")
                 break
+
             if shot_outcome:
                 continue
             turn += 1
+
             bot_turn = self.bot.ai_guess(self.difficulty_level, self.ocean_player_1, self)
             if bot_turn:
                 break
@@ -271,7 +264,6 @@ class MultiPlayerGame(Game):
             incorrect_inputs = False
             while incorrect_inputs is False:  # kontola inputow
                 hit_position = self.get_user_input()
-                incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
                 hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
             is_hit = self.player1.shot_outcome(hit_position)
