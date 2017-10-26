@@ -1,8 +1,7 @@
-import random
-from square import *
-from ship import *
-import time
 import os
+import time
+
+from ship import *
 
 
 class Player():
@@ -73,6 +72,17 @@ class Player():
             print('Hit!')
             return True
 
+    def ai_find_ship(self, player_ocean):
+        for line in player_ocean.board:
+            for square in line:
+                if isinstance(square, ShipSquare):
+                    square.change_sign('X')
+                    print('Hit!')
+                    print(player_ocean)
+                    time.sleep(1)
+                    os.system('clear')
+                    return
+
     def ai_guess(self, difficulty_level, player_ocean, player):
         """
         Computer is shooting our ocean depending on the given difficulty level.
@@ -88,25 +98,17 @@ class Player():
         MAX_ROW = 8
         MIN_HIT_CHANCE = 0
         MAX_HIT_CHANCE = 50
-        MIN_VALUE_FOR_HIT = 40
+        MIN_VALUE_FOR_HIT = 0
 
         while True:
             hit_success = random.randint(MIN_HIT_CHANCE, MAX_HIT_CHANCE * int(difficulty_level))
             if hit_success > MIN_VALUE_FOR_HIT:
-                for line in player_ocean.board:
-                    for square in line:
-                        if isinstance(square, ShipSquare):
-                            square.change_sign('X')
-                            print('Hit!')
-                            print(player_ocean)
-                            time.sleep(1)
-                            os.system('clear')
-                            break
+                self.ai_find_ship(player_ocean)
+
             else:
                 row = random.randint(MIN_ROW, MAX_ROW)
                 line = random.randint(MIN_ROW, MAX_ROW)
                 positions = [row, line]
-                print('Shot at: ' + str(row) + str(line) + ' outcome: ')
                 if not self.shot_outcome(positions):
                     break
 
@@ -119,6 +121,6 @@ class Player():
                     print("You lose FOOL!!!!!")
                     time.sleep(2)
                     return True
-
+        os.system('clear')
     def __str__(self):
         return self.name

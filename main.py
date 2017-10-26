@@ -1,6 +1,7 @@
+import os
+
 from game import *
 from highscore import HighScoreManager
-import os
 
 
 def main():
@@ -8,15 +9,15 @@ def main():
     Handle menu options
     """
     os.system('clear')
-
+    
     while True:
+        os.system('clear')
         option = input('''Choose option:
 (1) Start single player
 (2) Start multi player
 (3) Show highscores
 (4) exit
 ''')
-
         if option == '1':
             os.system('clear')
 
@@ -45,7 +46,7 @@ def main():
         elif option == '3':
             os.system('clear')
             HighScoreManager.print_highscore()
-            print('\n')
+            input('Press enter to return')
 
         elif option == '4':
             os.system('clear')
