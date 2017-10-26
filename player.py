@@ -1,6 +1,7 @@
 import os
 import time
-
+from square import *
+import game
 from ship import *
 
 
@@ -41,7 +42,9 @@ class Player():
         :param player_name: String -> Name of a Player object
         """
         ocean_lines = self.ocean.__str__().split('\n')
+        game.Game.hide_all_ships(self.opponent_ocean)
         ocean2_lines = self.opponent_ocean.__str__().split('\n')
+        game.Game.show_all_ships(self.opponent_ocean)
         width = 45
         table_names = 'Your Ocean: ' + ' ' * width + 'Opponent Ocean:'
 
@@ -72,11 +75,11 @@ class Player():
             print('Hit!')
             return True
 
-    def ai_find_ship(self, player_ocean):
+    def ai_find_and_shoot(self, player_ocean):
         for line in player_ocean.board:
             for square in line:
                 if isinstance(square, ShipSquare):
-                    square.change_sign('X')
+                    line[line.index(square)] = OceanSquare('X')
                     print('Hit!')
                     print(player_ocean)
                     time.sleep(1)
@@ -98,12 +101,12 @@ class Player():
         MAX_ROW = 8
         MIN_HIT_CHANCE = 0
         MAX_HIT_CHANCE = 50
-        MIN_VALUE_FOR_HIT = 0
+        MIN_VALUE_FOR_HIT = 40
 
         while True:
             hit_success = random.randint(MIN_HIT_CHANCE, MAX_HIT_CHANCE * int(difficulty_level))
             if hit_success > MIN_VALUE_FOR_HIT:
-                self.ai_find_ship(player_ocean)
+                self.ai_find_and_shoot(player_ocean)
 
             else:
                 row = random.randint(MIN_ROW, MAX_ROW)
@@ -122,5 +125,6 @@ class Player():
                     time.sleep(2)
                     return True
         os.system('clear')
+        
     def __str__(self):
         return self.name
