@@ -1,5 +1,6 @@
 from game import *
 from highscore import HighScoreManager
+import os
 
 
 def main():
@@ -32,8 +33,8 @@ def main():
         elif option == '2':
             os.system('clear')
 
-            player_name1 = 'Zosia'  # input('Enter name of 1st player: ')
-            player_name2 = 'Jasio'  # input('Enter name of 2nd player: ')
+            player_name1 = input('Enter name of 1st player: ')
+            player_name2 = input('Enter name of 2nd player: ')
 
             multiplayer_game = MultiPlayerGame(player_name1, player_name2)
             multiplayer_game.start_game()

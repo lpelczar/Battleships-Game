@@ -33,10 +33,16 @@ class Player():
         line = positions[1]
         if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
             self.opponent_ocean.board[line][row].change_sign('0')
+            self.misses += 1
+            self.total_hits += 1
             print('Shot missed')
+
             return False
+
         else:
             self.opponent_ocean.board[line][row] = OceanSquare('X')
+            self.total_hits += 1
+
             print('Hit!')
             return True
 
