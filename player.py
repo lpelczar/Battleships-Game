@@ -1,6 +1,6 @@
 import os
 import random
-
+from square import *
 from ship import *
 
 
@@ -38,7 +38,7 @@ class Player():
             print('Shot missed')
             return False
         else:
-            self.opponent_ocean.board[line][row].change_sign('X')
+            self.opponent_ocean.board[line][row] = OceanSquare('X')
             print('Hit!')
             return True
 
@@ -80,4 +80,3 @@ class Player():
 
     def __str__(self):
         return self.name
-
