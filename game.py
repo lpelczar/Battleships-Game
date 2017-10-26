@@ -131,8 +131,8 @@ class Game():
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
 
-                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r and'
-                      ' quit with q ')
+                print('use W,A,S,D to move your ship, than P to place it. You can restart placing with R and'
+                      ' quit with Q ')
 
                 move_ship = getch()
                 if move_ship in movement_keys:
