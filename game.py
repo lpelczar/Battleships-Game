@@ -1,6 +1,6 @@
 import abc
 import os
-from ocean import Ocean
+
 from player import Player
 from ship import *
 
@@ -8,7 +8,7 @@ from ship import *
 class Game():
 
     def __init__(self):
-        pass
+        self.start_time = time()
 
     @abc.abstractmethod
     def start_game(self):

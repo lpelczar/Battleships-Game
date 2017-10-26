@@ -1,7 +1,7 @@
-from ship import *
-import random
-from texttable import Texttable
 import os
+import random
+
+from ship import *
 
 
 class Player():
@@ -12,7 +12,8 @@ class Player():
         self.opponent_ocean = opponent_ocean
         self.is_human = is_human
         self.name = name
-        self.start_time = time()
+        self.total_hits = 0
+        self.misses = 0
 
     def put_ship_on_board(self, ship_name, is_horizontal, starting_point):
         eval(ship_name)(self.is_human, self.ocean, is_horizontal, starting_point)
