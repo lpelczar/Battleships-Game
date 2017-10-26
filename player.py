@@ -1,6 +1,6 @@
 import os
-import time
-from square import *
+from time import sleep
+
 import game
 from ship import *
 
@@ -82,7 +82,7 @@ class Player():
                     line[line.index(square)] = OceanSquare('X')
                     print('Hit!')
                     print(player_ocean)
-                    time.sleep(1)
+                    sleep(1)
                     os.system('clear')
                     return
 
@@ -122,7 +122,7 @@ class Player():
 
             if not player_ships_sign:
                     print("You lose FOOL!!!!!")
-                    time.sleep(2)
+                    sleep(2)
                     return True
         os.system('clear')
         
