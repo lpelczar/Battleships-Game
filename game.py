@@ -99,7 +99,7 @@ class Game():
         board = ocean.board
         for row in board:
             for square in row:
-                if isinstance(square, OceanSquare):
+                if isinstance(square, ShipSquare):
                     return False
         return True
 
@@ -309,6 +309,8 @@ class MultiPlayerGame(Game):
         self.ocean_player_2 = Ocean()
         self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
         self.player2 = Player(player_name_2, True, self.ocean_player_2, self.ocean_player_1)
+        self.ship_signs_player_1 = ["BA", "CA", "CR", "SU", "DE"]
+        self.ship_signs_player_2 = ["BA", "CA", "CR", "SU", "DE"]
 
 
     def start_game(self):
@@ -327,7 +329,13 @@ class MultiPlayerGame(Game):
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
             os.system('clear')
+
             is_hit = self.player1.shot_outcome(hit_position)
+            for sign in self.ship_signs_player_2:
+
+                if self.check_if_ship_is_destroyed(sign, self.ocean_player_2):
+                    self.ship_signs_player_2.remove(sign)
+                    print("Enemy ship: " + sign + " has been sunk!")
 
             if not is_hit:
                 input('Pass computer to player 2 and press enter')
@@ -354,6 +362,11 @@ class MultiPlayerGame(Game):
                 hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
                 os.system('clear')
                 is_hit = self.player2.shot_outcome(hit_position)
+                for sign in self.ship_signs_player_1:
+
+                    if self.check_if_ship_is_destroyed(sign, self.ocean_player_1):
+                        self.ship_signs_player_1.remove(sign)
+                        print("Enemy ship: " + sign + " has been sunk!")
                 if not is_hit:
                     input('Pass computer to player 1 and press enter')
                     os.system('clear')
