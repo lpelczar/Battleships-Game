@@ -80,12 +80,13 @@ class Player():
         for line in player_ocean.board:
             for square in line:
                 if isinstance(square, ShipSquare):
+                    row = player_ocean.board.index(line)
+                    column = line.index(square)
                     line[line.index(square)] = OceanSquare('X')
                     print('Hit!')
                     print(player_ocean)
                     sleep(1)
                     os.system('clear')
-                    return player_ocean.board.index(line), line.index(square)
 
     def ai_guess(self, difficulty_level, player_ocean, player):
         """
@@ -108,9 +109,8 @@ class Player():
         while True:
             hit_success = random.randint(MIN_HIT_CHANCE, MAX_HIT_CHANCE * int(difficulty_level))
             if hit_success > MIN_VALUE_FOR_HIT:
-                row, line = self.ai_find_and_shoot(player_ocean)
-                positions = [row, line]
-                already_shot_positions.append(positions)
+                self.ai_find_and_shoot(player_ocean)
+
 
             else:
                 while True:
