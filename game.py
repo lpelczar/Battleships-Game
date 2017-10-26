@@ -1,7 +1,7 @@
 import abc
 import os
 from copy import deepcopy
-
+from highscore import HighScoreManager
 from player import Player
 from ship import *
 
@@ -40,7 +40,7 @@ class Game():
     def get_user_input():
         while True:
             hit_position = input('Enter coordinates you want to shoot (row,line): ')
-            row, line = hit_position.split(',')
+            row, line = hit_position.split(',', '.')
             line = line.upper()
             print(row, line)
 
@@ -219,6 +219,7 @@ class SingleGame(Game):
             hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
             shot_outcome = self.player.shot_outcome(hit_position)
 
+            self.check_if_player_win()
             for sign in self.ship_signs:
 
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
@@ -255,28 +256,45 @@ class MultiPlayerGame(Game):
             self.player1.player_turn(self.player1.name)
 
             incorrect_inputs = False
-            while incorrect_inputs is False:  # kontola inputow
+            while incorrect_inputs is False:
                 hit_position = self.get_user_input()
                 hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
             is_hit = self.player1.shot_outcome(hit_position)
+            is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_2)
+
+            if is_win is True:
+                win = self.player1.name, 'win game! Congratulations!'
+                end_time = time()
+                end_time = int(end_time - start_time)
+                HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
+
+                return win
+
             if is_hit is True:
                 continue
-            # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
 
             turn = 1
             while turn == 1:
                 self.player2.player_turn(self.player2.name)
 
                 incorrect_inputs = False
-                while incorrect_inputs is False:  # kontola inputow
+                while incorrect_inputs is False:
                     hit_position = self.get_user_input()
                     incorrect_inputs = self.check_if_user_input_is_correct(hit_position[0], hit_position[1])
                     hit_position = self.convert_user_input_to_coordinates(hit_position[0], hit_position[1])
 
                 is_hit = self.player2.shot_outcome(hit_position)
+                is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_1)
+
+                if is_win is True:
+                    win = self.player2.name, 'win game! Congratulations!'
+                    end_time = time()
+                    end_time = int(end_time - start_time)
+                    HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)
+                    return win
+
                 if is_hit is True:
                     turn = 1
                 else:
                     turn = 0
-                # metoda ktora sprawdza w co trafil player_name1, jesli tak petla bedzie sie powtarzac
