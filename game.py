@@ -2,9 +2,9 @@ import abc
 import os
 from copy import deepcopy
 from highscore import HighScoreManager
+from keygetch import getch
 from player import Player
 from ship import *
-from keygetch import getch
 
 
 class Game():
@@ -129,7 +129,10 @@ class Game():
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
-                print('use W, A, S, D to move your ship, than P to place it. You can restart placing with R: ')
+
+                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r and'
+                      ' quit with q ')
+
                 move_ship = getch()
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
@@ -142,6 +145,9 @@ class Game():
                     except:
                         print('You cant place ship here!')
                         continue
+
+                elif move_ship =='q':
+                    quit()
 
                 elif move_ship == 'r':
                     player.ocean = Ocean()
@@ -308,7 +314,9 @@ class MultiPlayerGame(Game):
     def start_game(self):
         turn = 0
         self.put_ships_on_board(self.player1)
+        os.system('clear')
         self.put_ships_on_board(self.player2)
+        os.system('clear')
 
         while True:
             self.player1.player_turn(self.player1.name)

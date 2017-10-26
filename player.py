@@ -2,6 +2,7 @@ import random
 from square import *
 from ship import *
 import time
+import os
 
 
 class Player():
@@ -98,6 +99,8 @@ class Player():
                             square.change_sign('X')
                             print('Hit!')
                             print(player_ocean)
+                            time.sleep(1)
+                            os.system('clear')
                             break
             else:
                 row = random.randint(MIN_ROW, MAX_ROW)
