@@ -90,26 +90,20 @@ class Game():
         movement_keys = ['w', 's', 'a', 'd']
         decoy_ocean = Ocean()
         decoy = Player('decoy', False, decoy_ocean, player.ocean)
-        is_horizontal = True
         while ships:
             print(player)
             print(decoy.ocean)
             starting_position = 1, 1
+            is_horizontal = self.is_horizontal_input(ships[0])
             while True:
                 decoy.ocean.board = deepcopy(player.ocean.board)
                 os.system('clear')
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print(player)
                 print(decoy.ocean)
-                move_ship = input('use w,s,a,d to move your ship,q to flip them, than p to place it.'
-                                  ' You can restart placing with r')
+                move_ship = input('use w,s,a,d to move your ship, than p to place it.You can restart placing with r')
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
-                elif move_ship == 'q':
-                    if is_horizontal:
-                        is_horizontal = False
-                    else:
-                        is_horizontal = True
                 elif move_ship == 'p':
                     try:
                         player.put_ship_on_board(ships[0], is_horizontal, starting_position, False)
