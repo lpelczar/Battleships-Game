@@ -1,6 +1,7 @@
 import abc
 import os
 from copy import deepcopy
+
 from highscore import HighScoreManager
 from player import Player
 from ship import *
@@ -40,7 +41,7 @@ class Game():
     @staticmethod
     def get_user_input():
         while True:
-            hit_position = input('Enter coordinates you want to shoot (row,line): ')
+            hit_position = input('Enter coordinates you want to shoot (column,row): ')
             try:
                 row, line = hit_position.split(',')
             except:
