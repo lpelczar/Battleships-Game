@@ -1,7 +1,6 @@
 import abc
 import os
 from copy import deepcopy
-
 from highscore import HighScoreManager
 from keygetch import getch
 from player import Player
@@ -130,7 +129,10 @@ class Game():
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
-                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r: ')
+
+                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r and'
+                      ' quit with q ')
+
                 move_ship = getch()
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
@@ -143,6 +145,9 @@ class Game():
                     except:
                         print('You cant place ship here!')
                         continue
+
+                elif move_ship =='q':
+                    quit()
 
                 elif move_ship == 'r':
                     player.ocean = Ocean()
@@ -163,8 +168,6 @@ class Game():
         :return: None
         """
         position = list(position)
-
-
         ships_lengths = {'Carrier': 5, 'Battleship': 4, 'Cruiser': 3, 'Submarine': 3, 'Destroyer': 2}
         ship_length = ships_lengths[ship_type]
         if is_horizontal:
@@ -259,7 +262,7 @@ class Game():
 class SingleGame(Game):
 
     def __init__(self, player_name, difficulty_level):
-        self.difficulty_level = difficulty_level #difficulty level where 0 = easy, 1 = medium, 2 = hard
+        self.difficulty_level = difficulty_level  #difficulty level where 0 = easy, 1 = medium, 2 = hard
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
         self.player = Player(player_name, True, self.ocean_player_1, self.ocean_bot)
@@ -269,8 +272,7 @@ class SingleGame(Game):
     def start_game(self):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
-        print(self.ocean_bot)
-        turn = 0
+
         os.system('clear')
         while True:
             self.player.player_turn(self.player.name)
@@ -286,12 +288,15 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
-                print("Congratulations, you win!")
-                break
+                win = self.player1.name, 'win game! Congratulations!'
+                print(win)
+                end_time = time()
+                end_time = int(end_time - start_time)
+                HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
+                return win
 
             if shot_outcome:
                 continue
-            turn += 1
 
             bot_turn = self.bot.ai_guess(self.difficulty_level, self.ocean_player_1, self)
             if bot_turn:
@@ -326,6 +331,7 @@ class MultiPlayerGame(Game):
 
             if is_win is True:
                 win = self.player1.name, 'win game! Congratulations!'
+                print(win)
                 end_time = time()
                 end_time = int(end_time - start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
@@ -350,6 +356,7 @@ class MultiPlayerGame(Game):
 
                 if is_win is True:
                     win = self.player2.name, 'win game! Congratulations!'
+                    print(win)
                     end_time = time()
                     end_time = int(end_time - start_time)
                     HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)

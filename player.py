@@ -1,6 +1,8 @@
 import random
 from square import *
 from ship import *
+import time
+import os
 
 
 class Player():
@@ -97,6 +99,8 @@ class Player():
                             square.change_sign('X')
                             print('Hit!')
                             print(player_ocean)
+                            time.sleep(1)
+                            os.system('clear')
                             break
             else:
                 row = random.randint(MIN_ROW, MAX_ROW)
@@ -112,7 +116,8 @@ class Player():
                         player_ships_sign.remove(sign)
 
             if not player_ships_sign:
-                    "You lose!"
+                    print("You lose FOOL!!!!!")
+                    time.sleep(2)
                     return True
 
     def __str__(self):
