@@ -4,6 +4,7 @@ from copy import deepcopy
 from highscore import HighScoreManager
 from player import Player
 from ship import *
+from keygetch import getch
 
 
 class Game():
@@ -83,20 +84,25 @@ class Game():
         movement_keys = ['w', 's', 'a', 'd']
         decoy_ocean = Ocean()
         decoy = Player('decoy', False, decoy_ocean, player.ocean)
+
         print('Creating mode:\n' + str(player) + "'s board")
         print(decoy.ocean)
+
         while ships:
             starting_position = 1, 1
             is_horizontal = self.is_horizontal_input(ships[0])
+
             while True:
                 decoy.ocean.board = deepcopy(player.ocean.board)
                 os.system('clear')
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
-                move_ship = input('use w,s,a,d to move your ship, than p to place it. You can restart placing with r: ')
+                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r: ')
+                move_ship = getch()
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
+
                 elif move_ship == 'p':
                     try:
                         player.put_ship_on_board(ships[0], is_horizontal, starting_position, False)
@@ -105,15 +111,20 @@ class Game():
                     except:
                         print('You cant place ship here!')
                         continue
+
                 elif move_ship == 'r':
                     player.ocean = Ocean()
+                    os.system('clear')
                     self.put_ships_on_board(player)
+
                 else:
                     print('Incorrect input!')
 
     @staticmethod
     def move_ship_on_board(is_horizontal, position, ship_type, move_ship):
         position = list(position)
+
+
         ships_lengths = {'Carrier': 5, 'Battleship': 4, 'Cruiser': 3, 'Submarine': 3, 'Destroyer': 2}
         ship_length = ships_lengths[ship_type]
         if is_horizontal:
@@ -224,7 +235,6 @@ class SingleGame(Game):
             os.system('clear')
             shot_outcome = self.player.shot_outcome(hit_position)
 
-            self.check_if_player_win()
             for sign in self.ship_signs:
 
                 if self.check_if_ship_is_destroyed(sign, self.ocean_bot):
