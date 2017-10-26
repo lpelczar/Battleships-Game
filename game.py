@@ -6,6 +6,7 @@ from highscore import HighScoreManager
 from keygetch import getch
 from player import Player
 from ship import *
+from time import time
 
 
 class Game():
@@ -274,6 +275,7 @@ class SingleGame(Game):
     def start_game(self):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
+        start_time = time()
 
         os.system('clear')
         while True:
@@ -324,6 +326,7 @@ class MultiPlayerGame(Game):
         os.system('clear')
         self.put_ships_on_board(self.player2)
         os.system('clear')
+        start_time = time()
 
         while True:
             self.player1.player_turn(self.player1.name)
