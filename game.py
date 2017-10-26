@@ -263,6 +263,7 @@ class Game():
 class SingleGame(Game):
 
     def __init__(self, player_name, difficulty_level):
+        super().__init__()
         self.difficulty_level = difficulty_level  #difficulty level where 0 = easy, 1 = medium, 2 = hard
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
@@ -289,7 +290,7 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
-                win = self.player1.name, 'win game! Congratulations!'
+                win = str(self.player1.name + ' win game! Congratulations!')
                 print(win)
                 end_time = time()
                 end_time = int(end_time - self.start_time)
@@ -307,6 +308,7 @@ class SingleGame(Game):
 class MultiPlayerGame(Game):
 
     def __init__(self, player_name_1, player_name_2):
+        super().__init__()
         self.ocean_player_1 = Ocean()
         self.ocean_player_2 = Ocean()
         self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
@@ -344,8 +346,9 @@ class MultiPlayerGame(Game):
             is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_2)
 
             if is_win is True:
-                win = self.player1.name, 'win game! Congratulations!'
+                win = str(self.player1.name + ' win game! Congratulations!')
                 print(win)
+                input('Press enter to continue')
                 end_time = time()
                 end_time = int(end_time - self.start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
@@ -374,12 +377,12 @@ class MultiPlayerGame(Game):
                 is_win = self.check_if_all_ship_are_destroyed(self.ocean_player_1)
 
                 if is_win is True:
-                    win = self.player2.name, 'win game! Congratulations!'
+                    win = str(self.player2.name + ' win game! Congratulations!')
                     print(win)
+                    input('Press enter to continue')
                     end_time = time()
                     end_time = int(end_time - self.start_time)
                     HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)
-                    return win
 
                 if is_hit is True:
                     turn = 1
