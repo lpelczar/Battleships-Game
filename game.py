@@ -99,7 +99,8 @@ class Game():
                 decoy.put_ship_on_board(ships[0], is_horizontal, starting_position, True)
                 print('Creating mode:\n' + str(player) + "'s board")
                 print(decoy.ocean)
-                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r: ')
+                print('use w,s,a,d to move your ship, than p to place it. You can restart placing with r and'
+                      ' quit with q ')
                 move_ship = getch()
                 if move_ship in movement_keys:
                     starting_position = self.move_ship_on_board(is_horizontal, starting_position, ships[0], move_ship)
@@ -112,6 +113,9 @@ class Game():
                     except:
                         print('You cant place ship here!')
                         continue
+
+                elif move_ship =='q':
+                    quit()
 
                 elif move_ship == 'r':
                     player.ocean = Ocean()
@@ -184,17 +188,6 @@ class Game():
                 print('Wrong input!')
                 continue
         return x, y
-
-    @staticmethod
-    def is_horizontal_input(ship_name):
-        while True:
-            user_input = input('Do you want your ' + ship_name + ' placed horizontal or vertical? (h or v) ').lower()
-            if user_input == 'h':
-                return True
-            elif user_input == 'v':
-                return False
-            else:
-                print('Wrong input!')
 
     @staticmethod
     def hide_all_ships(Ocean):
