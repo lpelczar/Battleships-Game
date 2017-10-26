@@ -4,6 +4,9 @@ import os
 
 
 def main():
+    """
+    Handle menu options
+    """
     os.system('clear')
 
     while True:
@@ -51,8 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # ocean = Ocean()
-    # ocean.put_all_ships_for_bot()
-    # player = Player('bot', False, ocean, None)
-    # print(ocean)
