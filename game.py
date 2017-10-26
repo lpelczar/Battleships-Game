@@ -44,7 +44,7 @@ class Game():
             line = line.upper()
             print(row, line)
 
-            if not row.isdigit() or not len(row) == 1:
+            if not row.isdigit() or not len(row) == 1 or row == 0:
                 print('You type wrong sign or number! Try again.')
                 continue
 
