@@ -6,13 +6,12 @@ from highscore import HighScoreManager
 from keygetch import getch
 from player import Player
 from ship import *
-from time import time
 
 
 class Game():
 
     def __init__(self):
-        self.start_time = time()
+        ...
 
     @abc.abstractmethod
     def start_game(self):
@@ -264,7 +263,6 @@ class Game():
 class SingleGame(Game):
 
     def __init__(self, player_name, difficulty_level):
-        super().__init__()
         self.difficulty_level = difficulty_level  #difficulty level where 0 = easy, 1 = medium, 2 = hard
         self.ocean_player_1 = Ocean()
         self.ocean_bot = Ocean()
@@ -275,7 +273,7 @@ class SingleGame(Game):
     def start_game(self):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
-        start_time = time()
+        self.start_time = time()
 
         os.system('clear')
         while True:
@@ -292,11 +290,13 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
-                win = str(self.player1.name + ' win game! Congratulations!')
+                win = str(self.player.name + ' win game! Congratulations!')
                 print(win)
+                input('Press enter to continue')
                 end_time = time()
                 end_time = int(end_time - self.start_time)
-                HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
+                HighScoreManager().add_to_highscore(self.player.name, self.player.total_hits, self.player.misses,
+                                                    end_time)
                 return win
 
             if shot_outcome:
@@ -310,7 +310,6 @@ class SingleGame(Game):
 class MultiPlayerGame(Game):
 
     def __init__(self, player_name_1, player_name_2):
-        super().__init__()
         self.ocean_player_1 = Ocean()
         self.ocean_player_2 = Ocean()
         self.player1 = Player(player_name_1, True, self.ocean_player_1, self.ocean_player_2)
@@ -326,7 +325,7 @@ class MultiPlayerGame(Game):
         os.system('clear')
         self.put_ships_on_board(self.player2)
         os.system('clear')
-        start_time = time()
+        self.start_time = time()
 
         while True:
             self.player1.player_turn(self.player1.name)
