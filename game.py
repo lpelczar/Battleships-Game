@@ -1,17 +1,14 @@
 import abc
 import os
 from copy import deepcopy
-
 from highscore import HighScoreManager
 from keygetch import getch
 from player import Player
 from ship import *
+from time import time
 
 
 class Game():
-
-    def __init__(self):
-        self.start_time = time()
 
     @abc.abstractmethod
     def start_game(self):
@@ -273,6 +270,7 @@ class SingleGame(Game):
     def start_game(self):
         self.ocean_bot.put_all_ships_for_bot()
         self.put_ships_on_board(self.player)
+        start_time = time()
 
         os.system('clear')
         while True:
@@ -289,11 +287,11 @@ class SingleGame(Game):
                     print("Enemy ship: " + sign + " has been sunk!")
 
             if not self.ship_signs:
-                win = self.player1.name, 'win game! Congratulations!'
+                win = self.player.name, 'You win! Congratulations!'
                 print(win)
                 end_time = time()
-                end_time = int(end_time - self.start_time)
-                HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
+                end_time = int(end_time - start_time)
+                HighScoreManager().add_to_highscore(self.player.name, self.player.total_hits, self.player.misses, end_time)
                 return win
 
             if shot_outcome:
@@ -320,6 +318,7 @@ class MultiPlayerGame(Game):
         os.system('clear')
         self.put_ships_on_board(self.player2)
         os.system('clear')
+        start_time = time()
 
         while True:
             self.player1.player_turn(self.player1.name)
@@ -339,7 +338,7 @@ class MultiPlayerGame(Game):
                 win = self.player1.name, 'win game! Congratulations!'
                 print(win)
                 end_time = time()
-                end_time = int(end_time - self.start_time)
+                end_time = int(end_time - start_time)
                 HighScoreManager().add_to_highscore(self.player1.name, self.player1.total_hits, self.player1.misses, end_time)
 
                 return win
