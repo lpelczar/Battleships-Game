@@ -41,7 +41,7 @@ class Game():
         :param column: str - > column input
         :return: None
         """
-        board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8}
+        board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9}
         row = int(row) - 1
 
         if column in board_letter:

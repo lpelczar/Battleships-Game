@@ -1,6 +1,6 @@
 import os
-import time
-from square import *
+from time import sleep
+
 import game
 from ship import *
 
@@ -63,6 +63,7 @@ class Player():
 
         row = positions[ROW_INDEX]
         line = positions[LINE_INDEX]
+        print(row, line)
         if not isinstance(self.opponent_ocean.board[line][row], ShipSquare):
             self.opponent_ocean.board[line][row].change_sign('0')
             self.misses += 1
@@ -82,7 +83,7 @@ class Player():
                     line[line.index(square)] = OceanSquare('X')
                     print('Hit!')
                     print(player_ocean)
-                    time.sleep(1)
+                    sleep(1)
                     os.system('clear')
                     return
 
@@ -96,6 +97,7 @@ class Player():
         """
         print("Computer turn")
         player_ships_sign = ["BA", "CA", "CR", "SU", "DE"]
+        already_shot_positions = []
 
         MIN_ROW = 1
         MAX_ROW = 8
@@ -109,9 +111,14 @@ class Player():
                 self.ai_find_and_shoot(player_ocean)
 
             else:
-                row = random.randint(MIN_ROW, MAX_ROW)
-                line = random.randint(MIN_ROW, MAX_ROW)
-                positions = [row, line]
+                while True:
+                    row = random.randint(MIN_ROW, MAX_ROW)
+                    line = random.randint(MIN_ROW, MAX_ROW)
+                    positions = [row, line]
+                    if positions in already_shot_positions:
+                        continue
+                    else:
+                        break
                 if not self.shot_outcome(positions):
                     break
 
@@ -122,7 +129,7 @@ class Player():
 
             if not player_ships_sign:
                     print("You lose FOOL!!!!!")
-                    time.sleep(2)
+                    sleep(2)
                     return True
         os.system('clear')
         
