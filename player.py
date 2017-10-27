@@ -63,7 +63,6 @@ class Player():
 
         column = positions[COLUMN_INDEX]
         row = positions[ROW_INDEX]
-        print(row, column)
         if not isinstance(self.opponent_ocean.board[row][column], ShipSquare):
             self.opponent_ocean.board[row][column].change_sign('0')
             self.misses += 1
