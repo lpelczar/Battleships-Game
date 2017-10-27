@@ -55,10 +55,14 @@ class Game():
         Method gets user coordinates input
         :return: list -> a list containg input, where 0 index is row, and 1 index is column
         """
+        board_letter = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9}
         while True:
             hit_position = input('Enter coordinates you want to shoot (column,row): ')
             try:
                 row, column = hit_position.split(',')
+                column = str(column).upper()
+                if column not in board_letter:
+                    continue
             except:
                 print('Your type is wrong, try again!')
                 continue

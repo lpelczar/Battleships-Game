@@ -7,3 +7,5 @@ Janusz 3;2629
 Janusz 5;2657
 Janusz 6;2626
 Test;2487
+TestPlayer2;2470
+p2;2607
