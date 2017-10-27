@@ -385,6 +385,7 @@ class MultiPlayerGame(Game):
                     end_time = time()
                     end_time = int(end_time - self.start_time)
                     HighScoreManager().add_to_highscore(self.player2.name, self.player2.total_hits, self.player2.misses, end_time)
+                    return win
 
                 if is_hit is True:
                     turn = 1
