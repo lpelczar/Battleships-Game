@@ -1,6 +1,6 @@
 # Battleship in the OOP way
 
-## The story
+## Story
 
 The object of Battleship is to try and sink all of the other player's before they sink all of your ships. All of the other player's ships are somewhere on his/her board.  You try and hit them by calling out the coordinates of one of the squares on the board.  The other player also tries to hit your ships by calling out coordinates. Neither you nor the other player can see the other's board so you must try to guess where they are.
 
@@ -12,24 +12,26 @@ You sets ships by enter ship's name, answer the question if it's horizontal and 
 
 Once the guessing begins, the players may not move the ships.
 
-## Specification
+## Features
 
-Read the md file in specifications folder with appropriate name.
+- Two game modes: Single player (PvC), Multiplayer (Hot Seat).
+- 3 difficulty levels (easy, medium, hard).
+- Computer "AI"
+- Hall of fame
 
-__main.py__
+## Sample screenshots
 
-__square.py__
+![c1](http://i63.tinypic.com/2rppqtt.png)
+![c2](http://i64.tinypic.com/25f20x2.png)
 
-__ship.py__
+## Installation
 
-__ocean.py__
+Use Python 3.6 version and start main.py in console
 
-__player.py__
+```
+python3.6 main.py
+```
 
-__keygetch.py__
+## More info
 
-__textable.py__
-
-__highscore.py__
-
-__game.py__
+Project made for [Codecool](https://codecool.com/) programming course.
