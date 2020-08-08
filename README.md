@@ -21,8 +21,9 @@ Once the guessing begins, the players may not move the ships.
 
 ## Sample screenshots
 
-![c1](http://i63.tinypic.com/2rppqtt.png)
-![c2](http://i64.tinypic.com/25f20x2.png)
+![c1](https://raw.github.com/lpelczar/Battleships-Game/master/screenshots/battle1.png)
+
+![c1](https://raw.github.com/lpelczar/Battleships-Game/master/screenshots/battle2.png)
 
 ## Installation
 
